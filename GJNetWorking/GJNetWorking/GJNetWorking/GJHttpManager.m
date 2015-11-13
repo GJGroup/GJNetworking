@@ -112,10 +112,20 @@
     
     NSMutableString *avalidUrl = [NSMutableString stringWithString:base];
     
-    if (avalidUrl) {
-        
+    NSAssert([avalidUrl hasPrefix:@"http"], @"request is not a http or https type!");
+    
+    BOOL urlSlash = [avalidUrl hasSuffix:@"/"];
+    
+    BOOL pathSlash = [path hasPrefix:@"/"];
+    
+    if (urlSlash && pathSlash) {
+        [avalidUrl deleteCharactersInRange:NSMakeRange(avalidUrl.length - 1, 1)];
+    }
+    else if (!urlSlash && !pathSlash){
+        [avalidUrl appendString:@"/"];
     }
     
+    [avalidUrl appendString:path];
     
     return avalidUrl;
     
