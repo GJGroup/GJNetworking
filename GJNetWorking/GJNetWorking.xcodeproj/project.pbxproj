@@ -7,15 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420F41221BF584530072CD56 /* GJHttpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41211BF584530072CD56 /* GJHttpManager.m */; };
+		420F41251BF5853E0072CD56 /* GJBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41241BF5853E0072CD56 /* GJBaseRequest.m */; };
+		420F412A1BF5CBDC0072CD56 /* GJNetworkingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41291BF5CBDC0072CD56 /* GJNetworkingConfig.m */; };
 		42CAF9A01BF4388500A9EC75 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CAF99F1BF4388500A9EC75 /* main.m */; };
 		42CAF9A31BF4388500A9EC75 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CAF9A21BF4388500A9EC75 /* AppDelegate.m */; };
 		42CAF9A61BF4388500A9EC75 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CAF9A51BF4388500A9EC75 /* ViewController.m */; };
 		42CAF9A91BF4388500A9EC75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42CAF9A71BF4388500A9EC75 /* Main.storyboard */; };
 		42CAF9AB1BF4388500A9EC75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42CAF9AA1BF4388500A9EC75 /* Assets.xcassets */; };
 		42CAF9AE1BF4388500A9EC75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42CAF9AC1BF4388500A9EC75 /* LaunchScreen.storyboard */; };
+		4E366D4C6E5623478CAAAD8B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 746802635AB3F2927FF3994E /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		420F41201BF584530072CD56 /* GJHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJHttpManager.h; sourceTree = "<group>"; };
+		420F41211BF584530072CD56 /* GJHttpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJHttpManager.m; sourceTree = "<group>"; };
+		420F41231BF5853E0072CD56 /* GJBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJBaseRequest.h; sourceTree = "<group>"; };
+		420F41241BF5853E0072CD56 /* GJBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJBaseRequest.m; sourceTree = "<group>"; };
+		420F41271BF5867C0072CD56 /* GJRequestProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GJRequestProtocol.h; sourceTree = "<group>"; };
+		420F41281BF5CBDC0072CD56 /* GJNetworkingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJNetworkingConfig.h; sourceTree = "<group>"; };
+		420F41291BF5CBDC0072CD56 /* GJNetworkingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJNetworkingConfig.m; sourceTree = "<group>"; };
 		42CAF99B1BF4388500A9EC75 /* GJNetWorking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GJNetWorking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42CAF99F1BF4388500A9EC75 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		42CAF9A11BF4388500A9EC75 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,6 +37,9 @@
 		42CAF9AA1BF4388500A9EC75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		42CAF9AD1BF4388500A9EC75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42CAF9AF1BF4388500A9EC75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		746802635AB3F2927FF3994E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9045DB41ED987D511CE7DD4E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		C11EC16BBF7F95C00B7A3BAF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +47,41 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E366D4C6E5623478CAAAD8B /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		420F411F1BF583A60072CD56 /* GJNetWorking */ = {
+			isa = PBXGroup;
+			children = (
+				420F41271BF5867C0072CD56 /* GJRequestProtocol.h */,
+				420F41201BF584530072CD56 /* GJHttpManager.h */,
+				420F41211BF584530072CD56 /* GJHttpManager.m */,
+				420F41231BF5853E0072CD56 /* GJBaseRequest.h */,
+				420F41241BF5853E0072CD56 /* GJBaseRequest.m */,
+				420F41281BF5CBDC0072CD56 /* GJNetworkingConfig.h */,
+				420F41291BF5CBDC0072CD56 /* GJNetworkingConfig.m */,
+			);
+			path = GJNetWorking;
+			sourceTree = "<group>";
+		};
+		420F41261BF5860F0072CD56 /* GCNetWorking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GCNetWorking;
+			sourceTree = "<group>";
+		};
 		42CAF9921BF4388500A9EC75 = {
 			isa = PBXGroup;
 			children = (
 				42CAF99D1BF4388500A9EC75 /* GJNetWorking */,
 				42CAF99C1BF4388500A9EC75 /* Products */,
+				4EF17056A42DB3C006EBE438 /* Pods */,
+				53368743B2F2D7BD6A47F957 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +96,8 @@
 		42CAF99D1BF4388500A9EC75 /* GJNetWorking */ = {
 			isa = PBXGroup;
 			children = (
+				420F41261BF5860F0072CD56 /* GCNetWorking */,
+				420F411F1BF583A60072CD56 /* GJNetWorking */,
 				42CAF9A11BF4388500A9EC75 /* AppDelegate.h */,
 				42CAF9A21BF4388500A9EC75 /* AppDelegate.m */,
 				42CAF9A41BF4388500A9EC75 /* ViewController.h */,
@@ -79,6 +119,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		4EF17056A42DB3C006EBE438 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9045DB41ED987D511CE7DD4E /* Pods.debug.xcconfig */,
+				C11EC16BBF7F95C00B7A3BAF /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		53368743B2F2D7BD6A47F957 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				746802635AB3F2927FF3994E /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +143,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 42CAF9B21BF4388500A9EC75 /* Build configuration list for PBXNativeTarget "GJNetWorking" */;
 			buildPhases = (
+				A1FEE96D69D8986C97C09413 /* Check Pods Manifest.lock */,
 				42CAF9971BF4388500A9EC75 /* Sources */,
 				42CAF9981BF4388500A9EC75 /* Frameworks */,
 				42CAF9991BF4388500A9EC75 /* Resources */,
+				CB434EF7317F28E6AF1375CB /* Embed Pods Frameworks */,
+				02BB6514D173DB4A37376E9D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -144,13 +204,64 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		02BB6514D173DB4A37376E9D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1FEE96D69D8986C97C09413 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CB434EF7317F28E6AF1375CB /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		42CAF9971BF4388500A9EC75 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				420F41251BF5853E0072CD56 /* GJBaseRequest.m in Sources */,
 				42CAF9A61BF4388500A9EC75 /* ViewController.m in Sources */,
+				420F412A1BF5CBDC0072CD56 /* GJNetworkingConfig.m in Sources */,
 				42CAF9A31BF4388500A9EC75 /* AppDelegate.m in Sources */,
+				420F41221BF584530072CD56 /* GJHttpManager.m in Sources */,
 				42CAF9A01BF4388500A9EC75 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,6 +370,7 @@
 		};
 		42CAF9B31BF4388500A9EC75 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9045DB41ED987D511CE7DD4E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GJNetWorking/Info.plist;
@@ -270,6 +382,7 @@
 		};
 		42CAF9B41BF4388500A9EC75 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C11EC16BBF7F95C00B7A3BAF /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GJNetWorking/Info.plist;
@@ -298,6 +411,7 @@
 				42CAF9B41BF4388500A9EC75 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
