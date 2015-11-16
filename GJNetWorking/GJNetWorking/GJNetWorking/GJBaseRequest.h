@@ -11,4 +11,6 @@
 
 @interface GJBaseRequest : NSObject <GJRequestProtocol>
 
+
+
 @end

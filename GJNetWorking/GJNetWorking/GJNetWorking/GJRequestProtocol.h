@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, GJRequestMethod) {
-    GJRequestGet,
+    GJRequestGET,
     GJRequestPOST,
     GJRequestHEAD,
     GJRequestPUT,
@@ -17,23 +17,45 @@ typedef NS_ENUM(NSUInteger, GJRequestMethod) {
     GJRequestDELET
 };
 
+typedef void (^GJRequestFinishedBlock)(id responseObject, NSError *error);
+
+@protocol GJRequestProtocol;
+
+@protocol GJRequestDelegate <NSObject>
+
+- (void)cancelRequest:(id<GJRequestProtocol>)request;
+
+@end
+
+
 @protocol GJRequestProtocol <NSObject>
 
 @required
 
-- (NSString *)path;
+@property (nonatomic, weak) id<GJRequestDelegate> delegate;
 
 - (GJRequestMethod)method;
 
+- (void)start;
+
+- (void)cancel;
 
 @optional
 
+@property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
+
+@property (nonatomic ,copy) GJRequestFinishedBlock failedBlock;
+
+//default base url is setted in GJNetWorkingConfig and you can set single base url.
 - (NSString *)baseUrl;
+
+- (NSString *)path;
 
 - (NSDictionary *)parameters;
 
+- (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
+                  failedBlock:(GJRequestFinishedBlock)failed;
 
-- (void)start;
 
 
 @end

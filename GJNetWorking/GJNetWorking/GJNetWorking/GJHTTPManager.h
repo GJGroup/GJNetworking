@@ -1,5 +1,5 @@
 //
-//  GJHttpManager.h
+//  GJHTTPManager.h
 //  GJNetWorking
 //
 //  Created by wangyutao on 15/11/13.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "GJRequestProtocol.h"
 
-@interface GJHttpManager : NSObject
+@interface GJHTTPManager : NSObject
 
-+ (GJHttpManager *)sharedManager;
++ (GJHTTPManager *)sharedManager;
 
 - (void)startRequest:(id<GJRequestProtocol>)request;
 

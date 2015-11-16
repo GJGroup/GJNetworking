@@ -1,28 +1,28 @@
 //
-//  GJHttpManager.m
+//  GJHTTPManager.m
 //  GJNetWorking
 //
 //  Created by wangyutao on 15/11/13.
 //  Copyright © 2015年 wangyutao. All rights reserved.
 //
 
-#import "GJHttpManager.h"
+#import "GJHTTPManager.h"
 #import "AFNetworking.h"
 #import "GJNetworkingConfig.h"
 
-@interface GJHttpManager ()
+@interface GJHTTPManager ()<GJRequestDelegate>
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
 @end
 
-@implementation GJHttpManager
+@implementation GJHTTPManager
 
-+ (GJHttpManager *)sharedManager{
-    static GJHttpManager *instance = nil;
++ (GJHTTPManager *)sharedManager{
+    static GJHTTPManager *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [GJHttpManager new];
+        instance = [GJHTTPManager new];
     });
     return instance;
 }
@@ -41,6 +41,8 @@
 }
 
 - (void)startRequest:(id<GJRequestProtocol>)request{
+    
+    request.delegate = self;
     
     NSString *baseUrl = nil;
     if ([request respondsToSelector:@selector(baseUrl)]) {
@@ -67,23 +69,25 @@
     
     [self requestWithUrl:avalidUrl
                   method:method
-              parameters:parameters];
+              parameters:parameters
+                 request:request];
     
 }
 
 - (void)requestWithUrl:(NSString *)url
                 method:(GJRequestMethod)method
-            parameters:(NSDictionary *)parameters{
+            parameters:(NSDictionary *)parameters
+               request:(id<GJRequestProtocol>)request{
     
     switch (method) {
-        case GJRequestGet:
+        case GJRequestGET:
         {
             [self.manager GET:url
                    parameters:parameters
                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
+                          [self requestFinishedWithOperation:operation request:request];
                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
+                          [self requestFinishedWithOperation:operation request:request];
                       }];
         }
             break;
@@ -92,9 +96,9 @@
             [self.manager POST:url
                    parameters:parameters
                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          
+                          [self requestFinishedWithOperation:operation request:request];
                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          
+                          [self requestFinishedWithOperation:operation request:request];
                       }];
         }
             break;
@@ -102,9 +106,29 @@
             break;
     }
     
+}
+
+- (void)requestFinishedWithOperation:(AFHTTPRequestOperation*)operation
+                             request:(id<GJRequestProtocol>)request{
+    
+    BOOL success = operation.error ? NO : YES;
+
+    if (success) {
+        if (request.successBlock) {
+            request.successBlock(operation.responseObject, nil);
+        }
+    }
+    else{
+        if (request.failedBlock) {
+            request.failedBlock(nil, operation.error);
+        }
+    }
     
 }
 
+- (void)cancelRequest:(id<GJRequestProtocol>)request{
+    
+}
 
 
 - (NSString *)avalidUrlWithBaseUrl:(NSString *)base
