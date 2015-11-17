@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "MYRequest.h"
 
 @interface ViewController ()
 
@@ -16,6 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    MYRequest *request = [MYRequest new];
+    [request startWithSuccessBlock:^(id responseObject, NSError *error) {
+        
+    } failedBlock:^(id responseObject, NSError *error) {
+        
+    }];
     // Do any additional setup after loading the view, typically from a nib.
 }
 

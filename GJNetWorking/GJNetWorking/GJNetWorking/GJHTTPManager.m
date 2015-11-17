@@ -79,32 +79,35 @@
             parameters:(NSDictionary *)parameters
                request:(id<GJRequestProtocol>)request{
     
+    AFHTTPRequestOperation *startOperation = nil;
+    
     switch (method) {
         case GJRequestGET:
         {
-            [self.manager GET:url
-                   parameters:parameters
-                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          [self requestFinishedWithOperation:operation request:request];
-                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          [self requestFinishedWithOperation:operation request:request];
-                      }];
+            startOperation = [self.manager GET:url
+                                    parameters:parameters
+                                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                           [self requestFinishedWithOperation:operation request:request];
+                                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                           [self requestFinishedWithOperation:operation request:request];
+                                       }];
         }
             break;
         case GJRequestPOST:
         {
-            [self.manager POST:url
-                   parameters:parameters
-                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          [self requestFinishedWithOperation:operation request:request];
-                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          [self requestFinishedWithOperation:operation request:request];
-                      }];
+            startOperation = [self.manager POST:url
+                                     parameters:parameters
+                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                            [self requestFinishedWithOperation:operation request:request];
+                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                            [self requestFinishedWithOperation:operation request:request];
+                                        }];
         }
             break;
         default:
             break;
     }
+
     
 }
 
@@ -112,7 +115,15 @@
                              request:(id<GJRequestProtocol>)request{
     
     BOOL success = operation.error ? NO : YES;
-
+    
+    id responseObject = operation.responseObject;
+    
+    if (request.modelMaker && [request.modelMaker respondsToSelector:@selector(makeModelWithJSON:keysPath:class:)]) {
+        responseObject = [request.modelMaker makeModelWithJSON:operation.responseObject
+                                                      keysPath:[request modelKeysPath]
+                                                         class:[request modelClass]];
+    }
+    
     if (success) {
         if (request.successBlock) {
             request.successBlock(operation.responseObject, nil);

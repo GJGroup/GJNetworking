@@ -8,12 +8,15 @@
 
 #import "GJBaseRequest.h"
 #import "GJHTTPManager.h"
+#import "GJModelMaker.h"
 
 @interface GJBaseRequest ()
 {
     GJRequestFinishedBlock _successBlock;
     GJRequestFinishedBlock _failedBlock;
     __weak id _delegate;
+    GJModelMaker *_modelMaker;
+    Class _class;
 }
 
 @end
@@ -54,6 +57,7 @@
 }
 
 - (void)setSuccessBlock:(GJRequestFinishedBlock)successBlock{
+    
     _successBlock = successBlock;
 }
 
@@ -67,6 +71,18 @@
 
 - (GJRequestFinishedBlock)failedBlock{
     return _failedBlock;
+}
+
+-(void)setModelMaker:(GJModelMaker *)modelMaker{
+    _modelMaker = modelMaker;
+}
+
+- (GJModelMaker *)modelMaker{
+    return _modelMaker;
+}
+
+- (Class)modelClass{
+    return _class;
 }
 
 

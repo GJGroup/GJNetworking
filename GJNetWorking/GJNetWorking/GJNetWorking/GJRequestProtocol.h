@@ -17,15 +17,21 @@ typedef NS_ENUM(NSUInteger, GJRequestMethod) {
     GJRequestDELET
 };
 
-typedef void (^GJRequestFinishedBlock)(id responseObject, NSError *error);
+typedef void (^GJRequestFinishedBlock)(id responseObject, id status);
 
+
+
+@protocol GJModelMakerDelegate;
 @protocol GJRequestProtocol;
+
+
 
 @protocol GJRequestDelegate <NSObject>
 
 - (void)cancelRequest:(id<GJRequestProtocol>)request;
 
 @end
+
 
 
 @protocol GJRequestProtocol <NSObject>
@@ -45,6 +51,13 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, NSError *error);
 @property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
 
 @property (nonatomic ,copy) GJRequestFinishedBlock failedBlock;
+
+@property (nonatomic ,strong) id<GJModelMakerDelegate> modelMaker;
+
+/*the json's key path of model*/
+- (NSArray *)modelKeysPath;
+
+- (Class)modelClass;
 
 //default base url is setted in GJNetWorkingConfig and you can set single base url.
 - (NSString *)baseUrl;

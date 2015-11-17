@@ -8,13 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GJModelMakerDelegate.h"
+
 @interface GJNetworkingConfig : NSObject 
 
 + (void)setDefaultBaseUrl:(NSString *)baseUrl
    acceptableContentTypes:(NSSet *)contentTypes
  allowInvalidCertificates:(BOOL)allowInvalidCer
       validatesDomainName:(BOOL)validDomain
-        maxOperationCount:(int)operationCount;
+        maxOperationCount:(int)operationCount
+               modelMaker:(id<GJModelMakerDelegate>)maker
+            modelKeysPath:(NSArray *)keysPath;
 
 + (NSString *)defaultBaseUrl;
 
@@ -25,5 +29,9 @@
 + (BOOL)validatesDomainName;
 
 + (int)maxConcurrentOperationCount;
+
++ (id<GJModelMakerDelegate>)modelMaker;
+
++ (NSArray *)modelKeysPath;
 
 @end
