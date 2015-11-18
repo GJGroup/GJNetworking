@@ -19,8 +19,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
     MYRequest *request = [MYRequest new];
     [request startWithSuccessBlock:^(id responseObject, id status, NSError *error) {
         
