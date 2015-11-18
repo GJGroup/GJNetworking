@@ -8,15 +8,14 @@
 
 #import "GJBaseRequest.h"
 #import "GJHTTPManager.h"
-#import "GJModelMaker.h"
 
 @interface GJBaseRequest ()
 {
     GJRequestFinishedBlock _successBlock;
     GJRequestFinishedBlock _failedBlock;
     __weak id _delegate;
-    GJModelMaker *_modelMaker;
-    Class _class;
+    __weak id _task;
+    NSUInteger _currentRetryTimes;
 }
 
 @end
@@ -41,12 +40,15 @@
 }
 
 - (void)cancel{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cancelRequest:)]){
-        [self.delegate cancelRequest:self];
-    }
+    [[GJHTTPManager sharedManager] cancelRequest:self];
 }
 
-#pragma mark- property - block
+- (void)retry{
+    _currentRetryTimes ++;
+    [self start];
+}
+
+#pragma mark- property impletemention
 
 - (void)setDelegate:(id<GJRequestDelegate>)delegate{
     _delegate = delegate;
@@ -73,16 +75,16 @@
     return _failedBlock;
 }
 
--(void)setModelMaker:(GJModelMaker *)modelMaker{
-    _modelMaker = modelMaker;
+- (void)setTask:(id)task{
+    _task = task;
 }
 
-- (GJModelMaker *)modelMaker{
-    return _modelMaker;
+- (id)task{
+    return _task;
 }
 
-- (Class)modelClass{
-    return _class;
+- (NSUInteger)currentRetryTimes{
+    return _currentRetryTimes;
 }
 
 

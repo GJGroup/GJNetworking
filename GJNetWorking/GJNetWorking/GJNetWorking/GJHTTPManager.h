@@ -15,4 +15,6 @@
 
 - (void)startRequest:(id<GJRequestProtocol>)request;
 
+- (void)cancelRequest:(id<GJRequestProtocol>)request;
+
 @end

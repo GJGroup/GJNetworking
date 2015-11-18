@@ -10,4 +10,8 @@
 
 @implementation MYRequest
 
+- (NSUInteger)retryTimes{
+    return 3;
+}
+
 @end

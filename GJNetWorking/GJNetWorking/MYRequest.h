@@ -10,4 +10,5 @@
 
 @interface MYRequest : GJBaseRequest
 
+
 @end

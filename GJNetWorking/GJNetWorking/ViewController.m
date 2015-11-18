@@ -17,10 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    
     MYRequest *request = [MYRequest new];
-    [request startWithSuccessBlock:^(id responseObject, NSError *error) {
+    [request startWithSuccessBlock:^(id responseObject, id status, NSError *error) {
         
-    } failedBlock:^(id responseObject, NSError *error) {
+    } failedBlock:^(id responseObject, id status, NSError *error) {
         
     }];
     // Do any additional setup after loading the view, typically from a nib.

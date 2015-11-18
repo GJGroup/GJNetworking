@@ -17,8 +17,7 @@
  allowInvalidCertificates:(BOOL)allowInvalidCer
       validatesDomainName:(BOOL)validDomain
         maxOperationCount:(int)operationCount
-               modelMaker:(id<GJModelMakerDelegate>)maker
-            modelKeysPath:(NSArray *)keysPath;
+               modelMaker:(id<GJModelMakerDelegate>)maker;
 
 + (NSString *)defaultBaseUrl;
 
@@ -32,6 +31,5 @@
 
 + (id<GJModelMakerDelegate>)modelMaker;
 
-+ (NSArray *)modelKeysPath;
 
 @end

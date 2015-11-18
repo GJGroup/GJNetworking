@@ -10,8 +10,9 @@
 
 @protocol GJModelMakerDelegate <NSObject>
 
+@optional
 - (id)makeModelWithJSON:(NSDictionary *)json
-               keysPath:(NSArray *)keysPath
-                  class:(Class)modelClass;
+                  class:(Class)modelClass
+                 status:(id __autoreleasing *)status;
 
 @end

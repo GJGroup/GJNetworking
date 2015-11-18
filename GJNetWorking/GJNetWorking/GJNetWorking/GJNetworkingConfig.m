@@ -14,7 +14,6 @@ static BOOL allowInvalidCertificates = NO;
 static BOOL validatesDomainName = NO;
 static int maxConcurrentOperationCount = 4;
 static id<GJModelMakerDelegate> modelMaker;
-static NSArray *modelKeysPath;
 
 @implementation GJNetworkingConfig
 
@@ -23,8 +22,7 @@ static NSArray *modelKeysPath;
  allowInvalidCertificates:(BOOL)allowInvalidCer
       validatesDomainName:(BOOL)validDomain
         maxOperationCount:(int)operationCount
-               modelMaker:(id<GJModelMakerDelegate>)maker
-            modelKeysPath:(NSArray *)keysPath{
+               modelMaker:(id<GJModelMakerDelegate>)maker{
     
     baseUrl = base ? [base copy] : nil;
     acceptableContentTypes = contentTypes ? contentTypes : nil;
@@ -34,7 +32,6 @@ static NSArray *modelKeysPath;
     if (!modelMaker && maker) {
         modelMaker = maker;
     }
-    modelKeysPath = keysPath.count ? [keysPath copy] : nil;
 }
 
 + (NSString *)defaultBaseUrl{
@@ -61,8 +58,6 @@ static NSArray *modelKeysPath;
     return modelMaker;
 }
 
-+ (NSArray *)modelKeysPath{
-    return modelKeysPath;
-}
+
 
 @end

@@ -1,5 +1,5 @@
 //
-//  GJModelMaker.h
+//  MJModelMaker.h
 //  GJNetWorking
 //
 //  Created by wangyutao on 15/11/17.
@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "GJModelMakerDelegate.h"
-
-@interface GJModelMaker : NSObject<GJModelMakerDelegate>
-
+@interface MJModelMaker : NSObject<GJModelMakerDelegate>
 
 @end

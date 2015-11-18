@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GJModelMakerDelegate.h"
 
 typedef NS_ENUM(NSUInteger, GJRequestMethod) {
     GJRequestGET,
@@ -17,28 +18,25 @@ typedef NS_ENUM(NSUInteger, GJRequestMethod) {
     GJRequestDELET
 };
 
-typedef void (^GJRequestFinishedBlock)(id responseObject, id status);
+typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *error);
 
 
 
-@protocol GJModelMakerDelegate;
 @protocol GJRequestProtocol;
-
 
 
 @protocol GJRequestDelegate <NSObject>
 
-- (void)cancelRequest:(id<GJRequestProtocol>)request;
 
 @end
 
 
+@protocol GJRequestProtocol <GJModelMakerDelegate>
 
-@protocol GJRequestProtocol <NSObject>
-
-@required
 
 @property (nonatomic, weak) id<GJRequestDelegate> delegate;
+
+@property (nonatomic ,weak) id task;
 
 - (GJRequestMethod)method;
 
@@ -46,17 +44,19 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status);
 
 - (void)cancel;
 
+- (void)retry;
+
+- (NSUInteger)currentRetryTimes;
+
 @optional
 
 @property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
 
 @property (nonatomic ,copy) GJRequestFinishedBlock failedBlock;
 
-@property (nonatomic ,strong) id<GJModelMakerDelegate> modelMaker;
+//the real task object, we use 'id' because we don't want ref specific object.
 
-/*the json's key path of model*/
-- (NSArray *)modelKeysPath;
-
+//if you want to make model call back, you must implement this method for makeModel Protocol.
 - (Class)modelClass;
 
 //default base url is setted in GJNetWorkingConfig and you can set single base url.
@@ -65,6 +65,8 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status);
 - (NSString *)path;
 
 - (NSDictionary *)parameters;
+
+- (NSUInteger)retryTimes;
 
 - (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
                   failedBlock:(GJRequestFinishedBlock)failed;

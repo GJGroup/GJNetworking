@@ -10,7 +10,7 @@
 #import "AFNetworking.h"
 #import "GJNetworkingConfig.h"
 
-@interface GJHTTPManager ()<GJRequestDelegate>
+@interface GJHTTPManager ()
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
@@ -41,9 +41,7 @@
 }
 
 - (void)startRequest:(id<GJRequestProtocol>)request{
-    
-    request.delegate = self;
-    
+        
     NSString *baseUrl = nil;
     if ([request respondsToSelector:@selector(baseUrl)]) {
         baseUrl = [request baseUrl];
@@ -104,10 +102,56 @@
                                         }];
         }
             break;
+        case GJRequestDELET:
+        {
+            startOperation = [self.manager DELETE:url
+                                       parameters:parameters
+                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                              [self requestFinishedWithOperation:operation request:request];
+                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                              [self requestFinishedWithOperation:operation request:request];
+                                          }];
+        }
+            break;
+        case GJRequestHEAD:
+        {
+            startOperation = [self.manager HEAD:url
+                                     parameters:parameters
+                                        success:^(AFHTTPRequestOperation *operation) {
+                                            [self requestFinishedWithOperation:operation request:request];
+                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                            [self requestFinishedWithOperation:operation request:request];
+                                        }];
+                              
+        }
+            break;
+        case GJRequestPUT:
+        {
+            startOperation = [self.manager PUT:url
+                                    parameters:parameters
+                                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                           [self requestFinishedWithOperation:operation request:request];
+                                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                           [self requestFinishedWithOperation:operation request:request];
+                                       }];
+        }
+            break;
+        case GJRequestPATCH:
+        {
+            startOperation = [self.manager PATCH:url
+                                      parameters:parameters
+                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                             [self requestFinishedWithOperation:operation request:request];
+                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [self requestFinishedWithOperation:operation request:request];
+                                         }];
+        }
+            break;
         default:
             break;
     }
-
+    
+    request.task = startOperation;
     
 }
 
@@ -116,29 +160,55 @@
     
     BOOL success = operation.error ? NO : YES;
     
+    //retry
+    if (!success && [request retryTimes] > [request currentRetryTimes]) {
+        [request retry];
+        return;
+    }
+    
+    //make model
     id responseObject = operation.responseObject;
+    id status;
     
-    if (request.modelMaker && [request.modelMaker respondsToSelector:@selector(makeModelWithJSON:keysPath:class:)]) {
-        responseObject = [request.modelMaker makeModelWithJSON:operation.responseObject
-                                                      keysPath:[request modelKeysPath]
-                                                         class:[request modelClass]];
+    //if request success and request implement modelClass,
+    //when request or default modelMaker implement the delegate ,
+    //the response object will be make to model or model list.
+    if (success && [request respondsToSelector:@selector(modelClass)]){
+        id<GJModelMakerDelegate> defaultModelMaker = [GJNetworkingConfig modelMaker];
+        id<GJModelMakerDelegate> modelMaker = nil;
+        if (request && [request respondsToSelector:@selector(makeModelWithJSON:class:status:)]) {
+            modelMaker = request;
+        }
+        else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)]){
+            modelMaker = defaultModelMaker;
+        }
+        
+        if (modelMaker) {
+            responseObject = [modelMaker makeModelWithJSON:operation.responseObject
+                                                     class:[request modelClass]
+                                                    status:&status];
+        }
+
     }
     
-    if (success) {
-        if (request.successBlock) {
-            request.successBlock(operation.responseObject, nil);
-        }
+    //call back
+    if (success && request.successBlock) {
+        request.successBlock(responseObject, status, nil);
     }
-    else{
-        if (request.failedBlock) {
-            request.failedBlock(nil, operation.error);
-        }
+    
+    if (!success && request.failedBlock) {
+        request.failedBlock(responseObject, status, operation.error);
     }
     
 }
 
 - (void)cancelRequest:(id<GJRequestProtocol>)request{
-    
+    if (request.task) {
+        AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)request.task;
+        if (operation && !operation.isCancelled) {
+            [operation cancel];
+        }
+    }
 }
 
 
