@@ -10,12 +10,14 @@
 
 @implementation GCStatus
 
+//mantle
 + (NSDictionary *)JSONKeyPathsByPropertyKey{
     return @{@"errorCode":@"errorCode",
              @"message":@"msg",
              @"result":@"result"};
 }
 
+//mj
 + (NSDictionary *)replacedKeyFromPropertyName {
     return @{@"errorCode":@"errorCode",
              @"message":@"msg",

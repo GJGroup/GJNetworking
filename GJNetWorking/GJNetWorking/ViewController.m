@@ -8,7 +8,8 @@
 
 #import "ViewController.h"
 #import "MYRequest.h"
-
+#import "GCTestModel.h"
+#import "GCStatus.h"
 @interface ViewController ()
 
 @end
@@ -22,6 +23,9 @@
     
     MYRequest *request = [MYRequest new];
     [request startWithSuccessBlock:^(id responseObject, id status, NSError *error) {
+        
+        GCTestModel *model = (GCTestModel*)responseObject;
+        NSLog(@"%@",model);
         
     } failedBlock:^(id responseObject, id status, NSError *error) {
         

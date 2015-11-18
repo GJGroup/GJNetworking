@@ -14,6 +14,7 @@ static BOOL allowInvalidCertificates = NO;
 static BOOL validatesDomainName = NO;
 static int maxConcurrentOperationCount = 4;
 static id<GJModelMakerDelegate> modelMaker;
+static NSTimeInterval timeOutInterval = 60;
 
 @implementation GJNetworkingConfig
 
@@ -22,6 +23,7 @@ static id<GJModelMakerDelegate> modelMaker;
  allowInvalidCertificates:(BOOL)allowInvalidCer
       validatesDomainName:(BOOL)validDomain
         maxOperationCount:(int)operationCount
+          timeOutInterval:(NSTimeInterval)timeOut
                modelMaker:(id<GJModelMakerDelegate>)maker{
     
     baseUrl = base ? [base copy] : nil;
@@ -32,6 +34,7 @@ static id<GJModelMakerDelegate> modelMaker;
     if (!modelMaker && maker) {
         modelMaker = maker;
     }
+    timeOutInterval = timeOut ? timeOut : 60;
 }
 
 + (NSString *)defaultBaseUrl{
@@ -58,6 +61,8 @@ static id<GJModelMakerDelegate> modelMaker;
     return modelMaker;
 }
 
-
++ (NSTimeInterval)timeOutInterval{
+    return timeOutInterval;
+}
 
 @end

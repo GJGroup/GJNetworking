@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "Mantle.h"
 
-@interface GCStatus : MTLModel
+@interface GCStatus : MTLModel<MTLJSONSerializing>
 
 @property (nonatomic, copy) NSString *errorCode;
-@property (nonatomic, copy) NSString *success;
+@property (nonatomic, copy) NSString *message;
 @property (nonatomic, copy) NSString *result;
 
 @end

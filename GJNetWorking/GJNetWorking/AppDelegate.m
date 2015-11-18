@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "GJNetworkingConfig.h"
+#import "MantleModelMaker.h"
+#import "MJModelMaker.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +20,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [GJNetworkingConfig setDefaultBaseUrl:@"http://10.106.4.154:7070/"
+                   acceptableContentTypes:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]
+                 allowInvalidCertificates:YES
+                      validatesDomainName:NO
+                        maxOperationCount:4
+                          timeOutInterval:20
+                               modelMaker:[MJModelMaker new]];
+    
     return YES;
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

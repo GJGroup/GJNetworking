@@ -68,6 +68,8 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 
 - (NSUInteger)retryTimes;
 
+- (NSTimeInterval)timeOutInterval;
+
 - (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
                   failedBlock:(GJRequestFinishedBlock)failed;
 

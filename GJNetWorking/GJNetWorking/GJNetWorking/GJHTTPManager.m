@@ -65,6 +65,14 @@
         parameters = [request parameters];
     }
     
+    if ([request respondsToSelector:@selector(timeOutInterval)]) {
+        self.manager.requestSerializer.timeoutInterval = [request timeOutInterval];
+    }
+    else{
+        self.manager.requestSerializer.timeoutInterval = [GJNetworkingConfig timeOutInterval];
+    }
+
+    
     [self requestWithUrl:avalidUrl
                   method:method
               parameters:parameters

@@ -48,6 +48,10 @@
     [self start];
 }
 
+- (NSUInteger)retryTimes{
+    return 0;
+}
+
 #pragma mark- property impletemention
 
 - (void)setDelegate:(id<GJRequestDelegate>)delegate{
@@ -86,6 +90,7 @@
 - (NSUInteger)currentRetryTimes{
     return _currentRetryTimes;
 }
+
 
 
 @end

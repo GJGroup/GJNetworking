@@ -13,7 +13,7 @@
 @implementation MJModelMaker
 
 - (id)makeModelWithJSON:(NSDictionary *)json class:(Class)modelClass status:(__autoreleasing id *)status{
-    GCStatus *sta = [modelClass mj_objectWithKeyValues:json];
+    GCStatus *sta = [GCStatus mj_objectWithKeyValues:json];
     *status = sta;
     
     id dataJson = json[@"data"];

@@ -17,6 +17,7 @@
  allowInvalidCertificates:(BOOL)allowInvalidCer
       validatesDomainName:(BOOL)validDomain
         maxOperationCount:(int)operationCount
+          timeOutInterval:(NSTimeInterval)timeOut
                modelMaker:(id<GJModelMakerDelegate>)maker;
 
 + (NSString *)defaultBaseUrl;
@@ -30,6 +31,8 @@
 + (int)maxConcurrentOperationCount;
 
 + (id<GJModelMakerDelegate>)modelMaker;
+
++ (NSTimeInterval)timeOutInterval;
 
 
 @end
