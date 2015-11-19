@@ -28,7 +28,13 @@
 }
 
 - (void)start{
+    if (_delegate && [_delegate respondsToSelector:@selector(requestWillStart:)]) {
+        [_delegate requestWillStart:self];
+    }
     [[GJHTTPManager sharedManager] startRequest:self];
+    if (_delegate && [_delegate respondsToSelector:@selector(requestDidStart:)]) {
+        [_delegate requestDidStart:self];
+    }
 }
 
 - (void)startWithSuccessBlock:(GJRequestFinishedBlock)success

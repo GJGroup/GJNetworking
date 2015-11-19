@@ -21,12 +21,16 @@ typedef NS_ENUM(NSUInteger, GJRequestMethod) {
 typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *error);
 
 
-
 @protocol GJRequestProtocol;
 
 
 @protocol GJRequestDelegate <NSObject>
 
+- (void)requestWillStart:(id<GJRequestProtocol>)request;
+- (void)requestDidStart:(id<GJRequestProtocol>)request;
+
+- (void)requestWillStop:(id<GJRequestProtocol>)request;
+- (void)requestDidStop:(id<GJRequestProtocol>)request;
 
 @end
 
@@ -38,9 +42,16 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 
 @property (nonatomic ,weak) id task;
 
+@property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
+
+@property (nonatomic ,copy) GJRequestFinishedBlock failedBlock;
+
 - (GJRequestMethod)method;
 
 - (void)start;
+
+- (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
+                  failedBlock:(GJRequestFinishedBlock)failed;
 
 - (void)cancel;
 
@@ -48,11 +59,12 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 
 - (NSUInteger)currentRetryTimes;
 
+
+
+
+
+//user implement methods
 @optional
-
-@property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
-
-@property (nonatomic ,copy) GJRequestFinishedBlock failedBlock;
 
 //the real task object, we use 'id' because we don't want ref specific object.
 
@@ -69,9 +81,6 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 - (NSUInteger)retryTimes;
 
 - (NSTimeInterval)timeOutInterval;
-
-- (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
-                  failedBlock:(GJRequestFinishedBlock)failed;
 
 
 
