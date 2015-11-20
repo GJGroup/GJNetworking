@@ -8,7 +8,6 @@
 
 #import "GJHTTPManager.h"
 #import "AFNetworking.h"
-#import "GJNetworkingConfig.h"
 
 @interface GJHTTPManager ()
 
@@ -73,11 +72,18 @@
     }
 
     
+    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestWillStart:)]) {
+        [[request delegate] requestWillStart:request];
+    }
+    
     [self requestWithUrl:avalidUrl
                   method:method
               parameters:parameters
                  request:request];
     
+    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestDidStart:)]) {
+        [[request delegate] requestDidStart:request];
+    }
 }
 
 - (void)requestWithUrl:(NSString *)url
@@ -167,6 +173,7 @@
                              request:(id<GJRequestProtocol>)request{
     
     BOOL success = operation.error ? NO : YES;
+    id responseObject = operation.responseObject;
     
     //retry
     if (!success && [request retryTimes] > [request currentRetryTimes]) {
@@ -174,38 +181,20 @@
         return;
     }
     
-    //make model
-    id responseObject = operation.responseObject;
-    id status;
-    
-    //if request success and request implement modelClass,
-    //when request or default modelMaker implement the delegate ,
-    //the response object will be make to model or model list.
-    if (success && [request respondsToSelector:@selector(modelClass)]){
-        id<GJModelMakerDelegate> defaultModelMaker = [GJNetworkingConfig modelMaker];
-        id<GJModelMakerDelegate> modelMaker = nil;
-        if (request && [request respondsToSelector:@selector(makeModelWithJSON:class:status:)]) {
-            modelMaker = request;
-        }
-        else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)]){
-            modelMaker = defaultModelMaker;
-        }
-        
-        if (modelMaker) {
-            responseObject = [modelMaker makeModelWithJSON:operation.responseObject
-                                                     class:[request modelClass]
-                                                    status:&status];
-        }
-
+    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestWillStop:)]) {
+        [[request delegate] requestWillStop:request];
     }
-    
     //call back
     if (success && request.successBlock) {
-        request.successBlock(responseObject, status, nil);
+        request.successBlock(responseObject, nil, nil);
     }
     
     if (!success && request.failedBlock) {
-        request.failedBlock(responseObject, status, operation.error);
+        request.failedBlock(responseObject, nil, operation.error);
+    }
+    
+    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestDidStop:)]) {
+        [[request delegate] requestDidStop:request];
     }
     
 }

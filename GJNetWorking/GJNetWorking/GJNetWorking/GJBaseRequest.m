@@ -28,13 +28,9 @@
 }
 
 - (void)start{
-    if (_delegate && [_delegate respondsToSelector:@selector(requestWillStart:)]) {
-        [_delegate requestWillStart:self];
-    }
+
     [[GJHTTPManager sharedManager] startRequest:self];
-    if (_delegate && [_delegate respondsToSelector:@selector(requestDidStart:)]) {
-        [_delegate requestDidStart:self];
-    }
+ 
 }
 
 - (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
@@ -70,7 +66,41 @@
 
 - (void)setSuccessBlock:(GJRequestFinishedBlock)successBlock{
     
-    _successBlock = successBlock;
+    __weak typeof(self) weakSelf = self;
+    
+    _successBlock = ^(id responseJson, id status , NSError *error){
+        
+        //make model
+        BOOL success = error ? NO : YES;
+        id responseStatus;
+        id responseObject = responseJson;
+        
+        //if request success and request implement modelClass,
+        //when request or default modelMaker implement the delegate ,
+        //the response object will be make to model or model list.
+        if (success && [weakSelf respondsToSelector:@selector(modelClass)]){
+            id<GJModelMakerDelegate> defaultModelMaker = [GJNetworkingConfig modelMaker];
+            id<GJModelMakerDelegate> modelMaker = nil;
+            if (self && [weakSelf respondsToSelector:@selector(makeModelWithJSON:class:status:)]) {
+                modelMaker = weakSelf;
+            }
+            else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)]){
+                modelMaker = defaultModelMaker;
+            }
+            
+            if (modelMaker) {
+                responseObject = [modelMaker makeModelWithJSON:responseObject
+                                                         class:[weakSelf modelClass]
+                                                        status:&responseStatus];
+            }
+            
+        }
+
+        !successBlock ? : successBlock(responseJson , responseStatus, error);
+        
+        [weakSelf setSuccessBlock:nil];
+        
+    };
 }
 
 - (void)setFailedBlock:(GJRequestFinishedBlock)failedBlock{

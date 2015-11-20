@@ -6,8 +6,11 @@
 //  Copyright © 2015年 wangyutao. All rights reserved.
 //
 
+//  GJHTTPManager 
+
 #import <Foundation/Foundation.h>
 #import "GJRequestProtocol.h"
+#import "GJNetworkingConfig.h"
 
 @interface GJHTTPManager : NSObject
 
