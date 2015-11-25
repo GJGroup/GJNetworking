@@ -96,9 +96,7 @@
             
         }
 
-        !successBlock ? : successBlock(responseJson , responseStatus, error);
-        
-        [weakSelf setSuccessBlock:nil];
+        !successBlock ? : successBlock(responseObject , responseStatus, error);
         
     };
 }
@@ -126,6 +124,7 @@
 - (NSUInteger)currentRetryTimes{
     return _currentRetryTimes;
 }
+
 
 
 

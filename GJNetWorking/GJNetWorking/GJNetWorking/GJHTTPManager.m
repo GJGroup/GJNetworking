@@ -71,19 +71,10 @@
         self.manager.requestSerializer.timeoutInterval = [GJNetworkingConfig timeOutInterval];
     }
 
-    
-    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestWillStart:)]) {
-        [[request delegate] requestWillStart:request];
-    }
-    
     [self requestWithUrl:avalidUrl
                   method:method
               parameters:parameters
                  request:request];
-    
-    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestDidStart:)]) {
-        [[request delegate] requestDidStart:request];
-    }
 }
 
 - (void)requestWithUrl:(NSString *)url
@@ -181,21 +172,18 @@
         return;
     }
     
-    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestWillStop:)]) {
-        [[request delegate] requestWillStop:request];
-    }
     //call back
+    id<GJRequestProtocol> strongRequest = request;
     if (success && request.successBlock) {
-        request.successBlock(responseObject, nil, nil);
+        strongRequest.successBlock(responseObject, nil, nil);
     }
     
     if (!success && request.failedBlock) {
-        request.failedBlock(responseObject, nil, operation.error);
+        strongRequest.failedBlock(responseObject, nil, operation.error);
     }
     
-    if ([request delegate] && [[request delegate] respondsToSelector:@selector(requestDidStop:)]) {
-        [[request delegate] requestDidStop:request];
-    }
+    strongRequest.successBlock = nil;
+    strongRequest.failedBlock = nil;
     
 }
 

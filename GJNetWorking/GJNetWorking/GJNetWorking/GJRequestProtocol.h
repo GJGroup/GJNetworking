@@ -35,11 +35,11 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 @end
 
 
-@protocol GJRequestProtocol <GJModelMakerDelegate>
-
+@protocol GJRequestProtocol <NSObject>
 
 @property (nonatomic, weak) id<GJRequestDelegate> delegate;
 
+//the real task object, we use 'id' because we don't want ref specific object.
 @property (nonatomic ,weak) id task;
 
 @property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
@@ -61,12 +61,8 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 
 
 
-
-
 //user implement methods
 @optional
-
-//the real task object, we use 'id' because we don't want ref specific object.
 
 //if you want to make model call back, you must implement this method for makeModel Protocol.
 - (Class)modelClass;
