@@ -20,7 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [GJNetworkingConfig setDefaultBaseUrl:@"http://10.106.4.154:7070/"
+    [GJNetworkingConfig setDefaultBaseUrl:@"http://"
                    acceptableContentTypes:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]
                  allowInvalidCertificates:YES
                       validatesDomainName:NO

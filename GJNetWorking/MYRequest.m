@@ -12,13 +12,13 @@
 @implementation MYRequest
 
 - (NSString *)path{
-    return @"p2pInitController/getInitData.action";
+    return @"";
 }
 
 - (NSDictionary *)parameters{
-    return @{@"channelId":@"E66C5A44DE9841CC70C3DBD51560EC2B",
+    return @{@"channelId":@"abc",
             @"clientType":@"1",
-            @"sign":@"b28e3b36bf836b8176b583538ea3f406"};
+            @"sign":@"bcd"};
 }
 
 - (GJRequestMethod)method{
