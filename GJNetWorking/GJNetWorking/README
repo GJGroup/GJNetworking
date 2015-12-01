@@ -3,11 +3,9 @@
 
 GJBaseRequest 负责基础的请求操作
 
-GJModelRequest 负责合成model
-
 GJAPICacheRequest  负责接口缓存
 
-GJ  负责缓存
+GJModelRequest 负责合成model
 
 请求后直接显示缓存，同时网络请求开始
 

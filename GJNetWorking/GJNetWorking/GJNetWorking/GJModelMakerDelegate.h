@@ -13,6 +13,7 @@
 @optional
 - (id)makeModelWithJSON:(NSDictionary *)json
                   class:(Class)modelClass
+                  error:(NSError *)error
                  status:(id __autoreleasing *)status;
 
 @end
