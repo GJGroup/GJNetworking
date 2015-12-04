@@ -32,6 +32,8 @@
 
 - (void)start {
     
+    
+    
     BOOL useCache = ([self cachePolicy] == GJUseAPICacheIfExistPolicy);
     
     NSString *filePath = [self apiCacheFilePath];
@@ -76,6 +78,10 @@
 }
 
 - (BOOL)checkCacheValidTimeCanBeUsed {
+    NSTimeInterval interval = [self existTimeOfCache:[self apiCacheFilePath]];
+    if (interval >= [self cacheValidTime]) {
+        return NO;
+    }
     return YES;
 }
 
@@ -117,6 +123,18 @@
 }
 
 #pragma mark- private
+
+- (NSTimeInterval)existTimeOfCache:(NSString *)path {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSDictionary *attributes = [fileManager attributesOfItemAtPath:path error:&error];
+    if (!attributes) {
+        NSLog(@"get file:%@ ,attribute failed:%@", path, error);
+        return -1;
+    }
+    NSTimeInterval interval = -[[attributes fileModificationDate] timeIntervalSinceNow];
+    return interval;
+}
 
 - (void)archiveJsonToCurrentAPICache:(NSDictionary *)jsonDic {
     [self archiveJson:jsonDic toCacheFilePath:[self apiCacheFilePath]];
