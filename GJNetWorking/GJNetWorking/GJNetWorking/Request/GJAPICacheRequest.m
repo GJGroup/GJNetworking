@@ -32,8 +32,6 @@
 
 - (void)start {
     
-    
-    
     BOOL useCache = ([self cachePolicy] == GJUseAPICacheIfExistPolicy);
     
     NSString *filePath = [self apiCacheFilePath];
@@ -52,7 +50,7 @@
     }
     
     self.callBackUseCache = YES;
-    NSLog(@"user cache data %@",cacheJsonDic);
+    NSLog(@"use cache data %@",cacheJsonDic);
     self.successBlock(cacheJsonDic , nil, nil);
 
 }
@@ -74,6 +72,30 @@
         
         !successBlock ? : successBlock(responseJson , status, error);
 
+    }];
+}
+
+- (void)setFailedBlock:(GJRequestFinishedBlock)failedBlock {
+    
+    __weak typeof(self) weakSelf = self;
+
+    [super setFailedBlock:^(id responseJson, id status , NSError *error) {
+        
+        if ([weakSelf cachePolicy] == GJUseAPICacheWhenFailedPolicy) {
+            
+            NSDictionary *cacheJsonDic = [NSKeyedUnarchiver unarchiveObjectWithFile:[weakSelf apiCacheFilePath]];
+            if (!cacheJsonDic || !weakSelf.successBlock) {
+                !failedBlock ? : failedBlock(responseJson , status, error);
+                return;
+            }
+            
+            NSLog(@"use cache data %@",cacheJsonDic);
+            weakSelf.successBlock(cacheJsonDic , nil, nil);
+            return;
+            
+        }
+        
+        !failedBlock ? : failedBlock(responseJson , status, error);
     }];
 }
 
