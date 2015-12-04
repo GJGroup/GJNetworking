@@ -11,7 +11,8 @@
 		42028B8E1BFC293B00A335EA /* MJModelMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 42028B8D1BFC293B00A335EA /* MJModelMaker.m */; };
 		42028B971BFC50F800A335EA /* GCStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 42028B941BFC50F800A335EA /* GCStatus.m */; };
 		42028B981BFC50F800A335EA /* GCTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42028B961BFC50F800A335EA /* GCTestModel.m */; };
-		4204396B1BFE3299009B9782 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4204396A1BFE3299009B9782 /* README */; };
+		4204396B1BFE3299009B9782 /* MyNote in Resources */ = {isa = PBXBuildFile; fileRef = 4204396A1BFE3299009B9782 /* MyNote */; };
+		420C1B011C1196D3008E6817 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 420C1B001C1196D3008E6817 /* README.md */; };
 		420C2DAE1C0D8D1400AAE149 /* GJAPICacheRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */; };
 		420C2DAF1C0D8D1400AAE149 /* GJBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420C2DAB1C0D8D1400AAE149 /* GJBaseRequest.m */; };
 		420C2DB01C0D8D1400AAE149 /* GJModelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420C2DAD1C0D8D1400AAE149 /* GJModelRequest.m */; };
@@ -36,7 +37,8 @@
 		42028B941BFC50F800A335EA /* GCStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCStatus.m; sourceTree = "<group>"; };
 		42028B951BFC50F800A335EA /* GCTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCTestModel.h; sourceTree = "<group>"; };
 		42028B961BFC50F800A335EA /* GCTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCTestModel.m; sourceTree = "<group>"; };
-		4204396A1BFE3299009B9782 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		4204396A1BFE3299009B9782 /* MyNote */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MyNote; sourceTree = "<group>"; };
+		420C1B001C1196D3008E6817 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		420C2DA81C0D8D1400AAE149 /* GJAPICacheRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAPICacheRequest.h; sourceTree = "<group>"; };
 		420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAPICacheRequest.m; sourceTree = "<group>"; };
 		420C2DAA1C0D8D1400AAE149 /* GJBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJBaseRequest.h; sourceTree = "<group>"; };
@@ -148,7 +150,8 @@
 		42CAF99D1BF4388500A9EC75 /* GJNetWorking */ = {
 			isa = PBXGroup;
 			children = (
-				4204396A1BFE3299009B9782 /* README */,
+				420C1B001C1196D3008E6817 /* README.md */,
+				4204396A1BFE3299009B9782 /* MyNote */,
 				420F411F1BF583A60072CD56 /* GJNetWorking */,
 				42028B881BFC28FC00A335EA /* ModelMakers */,
 				42028B921BFC50F800A335EA /* Models */,
@@ -252,7 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4204396B1BFE3299009B9782 /* README in Resources */,
+				4204396B1BFE3299009B9782 /* MyNote in Resources */,
 				42CAF9AE1BF4388500A9EC75 /* LaunchScreen.storyboard in Resources */,
 				42CAF9AB1BF4388500A9EC75 /* Assets.xcassets in Resources */,
 				42CAF9A91BF4388500A9EC75 /* Main.storyboard in Resources */,
@@ -324,6 +327,7 @@
 				420F41221BF584530072CD56 /* GJHTTPManager.m in Sources */,
 				420C2DAF1C0D8D1400AAE149 /* GJBaseRequest.m in Sources */,
 				420F41311BF9E42A0072CD56 /* MYRequest.m in Sources */,
+				420C1B011C1196D3008E6817 /* README.md in Sources */,
 				42CAF9A01BF4388500A9EC75 /* main.m in Sources */,
 				42028B8E1BFC293B00A335EA /* MJModelMaker.m in Sources */,
 				42028B971BFC50F800A335EA /* GCStatus.m in Sources */,
