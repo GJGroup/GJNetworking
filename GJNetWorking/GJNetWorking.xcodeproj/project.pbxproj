@@ -103,10 +103,10 @@
 		420C2DA71C0D8D1400AAE149 /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				420C2DA81C0D8D1400AAE149 /* GJAPICacheRequest.h */,
-				420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */,
 				420C2DAA1C0D8D1400AAE149 /* GJBaseRequest.h */,
 				420C2DAB1C0D8D1400AAE149 /* GJBaseRequest.m */,
+				420C2DA81C0D8D1400AAE149 /* GJAPICacheRequest.h */,
+				420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */,
 				420C2DAC1C0D8D1400AAE149 /* GJModelRequest.h */,
 				420C2DAD1C0D8D1400AAE149 /* GJModelRequest.m */,
 			);

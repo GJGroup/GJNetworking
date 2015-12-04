@@ -17,7 +17,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [GJNetworkingConfig setDefaultBaseUrl:@"http://10.106.4.154:7070/"
@@ -26,7 +25,8 @@
                       validatesDomainName:NO
                         maxOperationCount:4
                           timeOutInterval:20
-                               modelMaker:[MJModelMaker new]];
+                               modelMaker:[MantleModelMaker new]];
+    [GJNetworkingConfig setCacheDirectory:@"apiCache"];
     
     return YES;
     

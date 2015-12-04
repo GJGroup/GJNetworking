@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GJModelMakerDelegate.h"
 
 typedef NS_ENUM(NSUInteger, GJRequestMethod) {
     GJRequestGET,

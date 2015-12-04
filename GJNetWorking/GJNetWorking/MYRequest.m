@@ -29,4 +29,11 @@
     return [GCTestModel class];
 }
 
+- (GJAPICachePolicy)cachePolicy {
+    return GJUseAPICacheIfExistPolicy;
+}
+
+- (NSTimeInterval)cacheValidTime {
+    return 60 * 60;
+}
 @end
