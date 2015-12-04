@@ -66,3 +66,18 @@ static NSTimeInterval timeOutInterval = 60;
 }
 
 @end
+
+
+static NSString *gj_cacheDirectory = @"GJAPICacheDirectory";
+
+@implementation GJNetworkingConfig (GJAPICache)
+
++ (void)setCacheDirectory:(NSString *)dir {
+    gj_cacheDirectory = dir;
+}
+
++ (NSString *)getCacheDirectory {
+    return gj_cacheDirectory;
+}
+
+@end

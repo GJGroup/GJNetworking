@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GJRequestProtocol.h"
 
-@interface GJBaseRequest : NSObject <GJRequestProtocol,GJModelMakerDelegate>
+@interface GJBaseRequest : NSObject <GJRequestProtocol>
 
 
 

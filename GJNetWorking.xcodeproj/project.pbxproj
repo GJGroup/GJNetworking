@@ -12,8 +12,10 @@
 		42028B971BFC50F800A335EA /* GCStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 42028B941BFC50F800A335EA /* GCStatus.m */; };
 		42028B981BFC50F800A335EA /* GCTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42028B961BFC50F800A335EA /* GCTestModel.m */; };
 		4204396B1BFE3299009B9782 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 4204396A1BFE3299009B9782 /* README */; };
+		420C2DAE1C0D8D1400AAE149 /* GJAPICacheRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */; };
+		420C2DAF1C0D8D1400AAE149 /* GJBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420C2DAB1C0D8D1400AAE149 /* GJBaseRequest.m */; };
+		420C2DB01C0D8D1400AAE149 /* GJModelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420C2DAD1C0D8D1400AAE149 /* GJModelRequest.m */; };
 		420F41221BF584530072CD56 /* GJHTTPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41211BF584530072CD56 /* GJHTTPManager.m */; };
-		420F41251BF5853E0072CD56 /* GJBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41241BF5853E0072CD56 /* GJBaseRequest.m */; };
 		420F412A1BF5CBDC0072CD56 /* GJNetworkingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41291BF5CBDC0072CD56 /* GJNetworkingConfig.m */; };
 		420F41311BF9E42A0072CD56 /* MYRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420F41301BF9E42A0072CD56 /* MYRequest.m */; };
 		42CAF9A01BF4388500A9EC75 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CAF99F1BF4388500A9EC75 /* main.m */; };
@@ -35,10 +37,14 @@
 		42028B951BFC50F800A335EA /* GCTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCTestModel.h; sourceTree = "<group>"; };
 		42028B961BFC50F800A335EA /* GCTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCTestModel.m; sourceTree = "<group>"; };
 		4204396A1BFE3299009B9782 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		420C2DA81C0D8D1400AAE149 /* GJAPICacheRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAPICacheRequest.h; sourceTree = "<group>"; };
+		420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAPICacheRequest.m; sourceTree = "<group>"; };
+		420C2DAA1C0D8D1400AAE149 /* GJBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJBaseRequest.h; sourceTree = "<group>"; };
+		420C2DAB1C0D8D1400AAE149 /* GJBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJBaseRequest.m; sourceTree = "<group>"; };
+		420C2DAC1C0D8D1400AAE149 /* GJModelRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJModelRequest.h; sourceTree = "<group>"; };
+		420C2DAD1C0D8D1400AAE149 /* GJModelRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJModelRequest.m; sourceTree = "<group>"; };
 		420F41201BF584530072CD56 /* GJHTTPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJHTTPManager.h; sourceTree = "<group>"; };
 		420F41211BF584530072CD56 /* GJHTTPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJHTTPManager.m; sourceTree = "<group>"; };
-		420F41231BF5853E0072CD56 /* GJBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJBaseRequest.h; sourceTree = "<group>"; };
-		420F41241BF5853E0072CD56 /* GJBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJBaseRequest.m; sourceTree = "<group>"; };
 		420F41271BF5867C0072CD56 /* GJRequestProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GJRequestProtocol.h; sourceTree = "<group>"; };
 		420F41281BF5CBDC0072CD56 /* GJNetworkingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJNetworkingConfig.h; sourceTree = "<group>"; };
 		420F41291BF5CBDC0072CD56 /* GJNetworkingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJNetworkingConfig.m; sourceTree = "<group>"; };
@@ -94,15 +100,27 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		420C2DA71C0D8D1400AAE149 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				420C2DAA1C0D8D1400AAE149 /* GJBaseRequest.h */,
+				420C2DAB1C0D8D1400AAE149 /* GJBaseRequest.m */,
+				420C2DA81C0D8D1400AAE149 /* GJAPICacheRequest.h */,
+				420C2DA91C0D8D1400AAE149 /* GJAPICacheRequest.m */,
+				420C2DAC1C0D8D1400AAE149 /* GJModelRequest.h */,
+				420C2DAD1C0D8D1400AAE149 /* GJModelRequest.m */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
 		420F411F1BF583A60072CD56 /* GJNetWorking */ = {
 			isa = PBXGroup;
 			children = (
+				420C2DA71C0D8D1400AAE149 /* Request */,
 				420F41271BF5867C0072CD56 /* GJRequestProtocol.h */,
 				42FF7B1D1BFAD55D00CEC219 /* GJModelMakerDelegate.h */,
 				420F41201BF584530072CD56 /* GJHTTPManager.h */,
 				420F41211BF584530072CD56 /* GJHTTPManager.m */,
-				420F41231BF5853E0072CD56 /* GJBaseRequest.h */,
-				420F41241BF5853E0072CD56 /* GJBaseRequest.m */,
 				420F41281BF5CBDC0072CD56 /* GJNetworkingConfig.h */,
 				420F41291BF5CBDC0072CD56 /* GJNetworkingConfig.m */,
 			);
@@ -298,11 +316,13 @@
 			files = (
 				42028B981BFC50F800A335EA /* GCTestModel.m in Sources */,
 				42028B8B1BFC291800A335EA /* MantleModelMaker.m in Sources */,
-				420F41251BF5853E0072CD56 /* GJBaseRequest.m in Sources */,
+				420C2DAE1C0D8D1400AAE149 /* GJAPICacheRequest.m in Sources */,
 				42CAF9A61BF4388500A9EC75 /* ViewController.m in Sources */,
 				420F412A1BF5CBDC0072CD56 /* GJNetworkingConfig.m in Sources */,
+				420C2DB01C0D8D1400AAE149 /* GJModelRequest.m in Sources */,
 				42CAF9A31BF4388500A9EC75 /* AppDelegate.m in Sources */,
 				420F41221BF584530072CD56 /* GJHTTPManager.m in Sources */,
+				420C2DAF1C0D8D1400AAE149 /* GJBaseRequest.m in Sources */,
 				420F41311BF9E42A0072CD56 /* MYRequest.m in Sources */,
 				42CAF9A01BF4388500A9EC75 /* main.m in Sources */,
 				42028B8E1BFC293B00A335EA /* MJModelMaker.m in Sources */,

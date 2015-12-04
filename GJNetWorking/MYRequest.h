@@ -6,9 +6,9 @@
 //  Copyright © 2015年 wangyutao. All rights reserved.
 //
 
-#import "GJBaseRequest.h"
+#import "GJModelRequest.h"
 
-@interface MYRequest : GJBaseRequest
+@interface MYRequest : GJModelRequest
 
 
 @end

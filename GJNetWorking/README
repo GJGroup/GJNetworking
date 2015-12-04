@@ -3,11 +3,15 @@
 
 GJBaseRequest 负责基础的请求操作
 
-GJModelRequest 负责合成model
-
 GJAPICacheRequest  负责接口缓存
 
-GJ  负责缓存
+缓存策略：
+1，不做缓存，正常请求
+2，缓存到磁盘，请求失败读取磁盘，
+3，缓存到磁盘，时效内都读缓存
 
-请求后直接显示缓存，同时网络请求开始
+GJModelRequest 负责合成model
+
+待定需求：
+请求后直接返回缓存，同时网络请求开始
 

@@ -12,13 +12,13 @@
 @implementation MYRequest
 
 - (NSString *)path{
-    return @"";
+    return @"p2pInitController/getInitData.action";
 }
 
 - (NSDictionary *)parameters{
-    return @{@"channelId":@"abc",
+    return @{@"channelId":@"E66C5A44DE9841CC70C3DBD51560EC2B",
             @"clientType":@"1",
-            @"sign":@"bcd"};
+            @"sign":@"b28e3b36bf836b8176b583538ea3f406"};
 }
 
 - (GJRequestMethod)method{
@@ -29,4 +29,11 @@
     return [GCTestModel class];
 }
 
+- (GJAPICachePolicy)cachePolicy {
+    return GJUseAPICacheIfExistPolicy;
+}
+
+- (NSTimeInterval)cacheValidTime {
+    return 60 * 60;
+}
 @end

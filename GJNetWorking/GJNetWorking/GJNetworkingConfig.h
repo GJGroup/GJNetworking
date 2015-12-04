@@ -36,3 +36,11 @@
 
 
 @end
+
+@interface GJNetworkingConfig (GJAPICache)
+
++ (void)setCacheDirectory:(NSString *)dir;
+
++ (NSString *)getCacheDirectory;
+
+@end
