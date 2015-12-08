@@ -12,7 +12,7 @@ typedef NS_ENUM(NSUInteger, GJAPICachePolicy) {
     /**
      * 不用缓存，不存缓存
      */
-    GJNotAPICachePolicy,
+    GJNoAPICachePolicy,
     
     /**
      * 请求失败时使用缓存(如果缓存有效期内)，存储缓存

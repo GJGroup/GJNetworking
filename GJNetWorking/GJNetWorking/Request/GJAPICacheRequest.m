@@ -19,7 +19,7 @@
 @implementation GJAPICacheRequest
 
 - (GJAPICachePolicy)cachePolicy {
-    return GJNotAPICachePolicy;
+    return GJNoAPICachePolicy;
 }
 
 - (NSTimeInterval)cacheValidTime {
