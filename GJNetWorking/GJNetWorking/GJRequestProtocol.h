@@ -59,12 +59,8 @@ typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *e
 - (NSUInteger)currentRetryTimes;
 
 
-
 //user implement methods
 @optional
-
-//if you want to make model call back, you must implement this method for makeModel Protocol.
-- (Class)modelClass;
 
 //default base url is setted in GJNetWorkingConfig and you can set single base url.
 - (NSString *)baseUrl;

@@ -8,7 +8,8 @@
 
 #import "GJAPICacheRequest.h"
 #import "GJModelMakerDelegate.h"
+#import "GJModelReqeustProtocol.h"
 
-@interface GJModelRequest : GJAPICacheRequest <GJModelMakerDelegate>
+@interface GJModelRequest : GJAPICacheRequest <GJModelMakerDelegate,GJModelReqeustProtocol>
 
 @end
