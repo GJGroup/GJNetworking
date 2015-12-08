@@ -21,11 +21,11 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - JSONModel (1.1.2)
-  - Mantle (2.0.5):
-    - Mantle/extobjc (= 2.0.5)
-  - Mantle/extobjc (2.0.5)
-  - MJExtension (3.0.3)
-  - YYModel (0.9.1)
+  - Mantle (2.0.6):
+    - Mantle/extobjc (= 2.0.6)
+  - Mantle/extobjc (2.0.6)
+  - MJExtension (3.0.7)
+  - YYModel (0.9.7)
 
 DEPENDENCIES:
   - AFNetworking
@@ -37,8 +37,8 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   JSONModel: 216584d0311b053ff714f1d6cb700dbf890847bc
-  Mantle: 1912395033f601de5adc8ee91e48f46e4c7051ad
-  MJExtension: de557e1c48ef3212590d3203764c8003fae68815
-  YYModel: 659035a19b7839ddbfa761b4e9a721c689c11e29
+  Mantle: 299966b00759634931699f69cb6a30b9239b944d
+  MJExtension: 290cc966f0f849b12b6391a38e296e0004ae8e5e
+  YYModel: 88f4bdec25975a8f642daa0bb572b039a3ab1db1
 
 COCOAPODS: 0.39.0

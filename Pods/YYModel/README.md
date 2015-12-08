@@ -3,8 +3,8 @@ YYModel <a href="#中文介绍">中文介绍</a>
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/YYModel/master/LICENSE)&nbsp;
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)&nbsp;
-[![Cocoapods](http://img.shields.io/cocoapods/v/YYModel.svg?style=flat)](http://cocoapods.org/?q= YYModel)&nbsp;
-[![Cocoapods](http://img.shields.io/cocoapods/p/YYModel.svg?style=flat)](http://cocoapods.org/?q= YYModel)&nbsp;
+[![CocoaPods](http://img.shields.io/cocoapods/v/YYModel.svg?style=flat)](http://cocoapods.org/?q= YYModel)&nbsp;
+[![CocoaPods](http://img.shields.io/cocoapods/p/YYModel.svg?style=flat)](http://cocoapods.org/?q= YYModel)&nbsp;
 [![Support](https://img.shields.io/badge/support-iOS%206%2B%20-blue.svg?style=flat)](https://www.apple.com/nl/ios/)&nbsp;
 [![Build Status](https://travis-ci.org/ibireme/YYModel.svg?branch=master)](https://travis-ci.org/ibireme/YYModel)
 
@@ -128,7 +128,8 @@ EEE MMM dd HH:mm:ss Z yyyy
 	    "p": 256,
 	    "ext" : {
 	        "desc" : "A book written by J.K.Rowing."
-	    }
+	    },
+	    "ID" : 100010
 	}
 
 	// Model:
@@ -136,12 +137,14 @@ EEE MMM dd HH:mm:ss Z yyyy
 	@property NSString *name;
 	@property NSInteger page;
 	@property NSString *desc;
+	@property NSString *bookID;
 	@end
 	@implementation Book
 	+ (NSDictionary *)modelCustomPropertyMapper {
 	    return @{@"name" : @"n",
 	             @"page" : @"p",
-	             @"desc" : @"ext.desc"};
+	             @"desc" : @"ext.desc",
+	             @"bookID" : @[@"id",@"ID",@"book_id"]};
 	}
 	@end
 
@@ -251,7 +254,7 @@ EEE MMM dd HH:mm:ss Z yyyy
 
 	@implementation YYShadow
 	- (void)encodeWithCoder:(NSCoder *)aCoder { [self yy_modelEncodeWithCoder:aCoder]; }
-	- (id)initWithCoder:(NSCoder *)aDecoder { return [self yy_modelInitWithCoder:aDecoder]; }
+	- (id)initWithCoder:(NSCoder *)aDecoder { self = [super init]; return [self yy_modelInitWithCoder:aDecoder]; }
 	- (id)copyWithZone:(NSZone *)zone { return [self yy_modelCopy]; }
 	- (NSUInteger)hash { return [self yy_modelHash]; }
 	- (BOOL)isEqual:(id)object { return [self yy_modelIsEqual:object]; }
@@ -261,7 +264,7 @@ EEE MMM dd HH:mm:ss Z yyyy
 Installation
 ==============
 
-### Cocoapods
+### CocoaPods
 
 1. Add `pod "YYModel"` to your Podfile.
 2. Run `pod install` or `pod update`.
@@ -418,7 +421,8 @@ EEE MMM dd HH:mm:ss Z yyyy
 	    "p": 256,
 	    "ext" : {
 	        "desc" : "A book written by J.K.Rowing."
-	    }
+	    },
+	    "ID" : 100010
 	}
 
 	// Model:
@@ -426,13 +430,15 @@ EEE MMM dd HH:mm:ss Z yyyy
 	@property NSString *name;
 	@property NSInteger page;
 	@property NSString *desc;
+	@property NSString *bookID;
 	@end
 	@implementation Book
 	//返回一个 Dict，将 Model 属性名对映射到 JSON 的 Key。
 	+ (NSDictionary *)modelCustomPropertyMapper {
 	    return @{@"name" : @"n",
 	             @"page" : @"p",
-	             @"desc" : @"ext.desc"};
+	             @"desc" : @"ext.desc",
+	             @"bookID" : @[@"id",@"ID",@"book_id"]};
 	}
 	@end
 
@@ -552,7 +558,7 @@ EEE MMM dd HH:mm:ss Z yyyy
 	@implementation YYShadow
 	// 直接添加以下代码即可自动完成
 	- (void)encodeWithCoder:(NSCoder *)aCoder { [self yy_modelEncodeWithCoder:aCoder]; }
-	- (id)initWithCoder:(NSCoder *)aDecoder { return [self yy_modelInitWithCoder:aDecoder]; }
+	- (id)initWithCoder:(NSCoder *)aDecoder { self = [super init]; return [self yy_modelInitWithCoder:aDecoder]; }
 	- (id)copyWithZone:(NSZone *)zone { return [self yy_modelCopy]; }
 	- (NSUInteger)hash { return [self yy_modelHash]; }
 	- (BOOL)isEqual:(id)object { return [self yy_modelIsEqual:object]; }
@@ -562,7 +568,7 @@ EEE MMM dd HH:mm:ss Z yyyy
 安装
 ==============
 
-### Cocoapods
+### CocoaPods
 
 1. 在 Podfile 中添加 `pod "YYModel"`。
 2. 执行 `pod install` 或 `pod update`。

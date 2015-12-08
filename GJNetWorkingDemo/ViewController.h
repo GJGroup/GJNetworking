@@ -1,8 +1,8 @@
 //
 //  ViewController.h
-//  GJNetWorking
+//  GJNetWorkingDemo
 //
-//  Created by wangyutao on 15/11/12.
+//  Created by wangyutao on 15/12/8.
 //  Copyright © 2015年 wangyutao. All rights reserved.
 //
 

@@ -1,15 +1,14 @@
 //
 //  AppDelegate.m
-//  GJNetWorking
+//  GJNetWorkingDemo
 //
-//  Created by wangyutao on 15/11/12.
+//  Created by wangyutao on 15/12/8.
 //  Copyright © 2015年 wangyutao. All rights reserved.
 //
 
 #import "AppDelegate.h"
 #import "GJNetworkingConfig.h"
 #import "MantleModelMaker.h"
-#import "MJModelMaker.h"
 
 @interface AppDelegate ()
 
@@ -17,8 +16,8 @@
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
     [GJNetworkingConfig setDefaultBaseUrl:@"http://10.106.4.154:7070/"
                    acceptableContentTypes:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]
                  allowInvalidCertificates:YES
@@ -27,11 +26,7 @@
                           timeOutInterval:20
                                modelMaker:[MantleModelMaker class]];
     [GJNetworkingConfig setCacheDirectory:@"apiCache"];
-    
-//    BOOL conform = [MantleModelMaker conformsToProtocol:@protocol(GJModelMakerDelegate)];
-    
     return YES;
-    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
