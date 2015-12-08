@@ -14,7 +14,10 @@
 - 因为AFNetWorking2.6版本支持iOS7.0+，所以此库也从iOS7支持开始
 
 ## 开始
-
+下面将一步步教您如何使用，您可通过实现一些协议及配置，来实现类库提供的一些功能
+- 创建封装单一接口的类；
+- 实现将请求数据转成model的协议，从而使请求直接返回model；
+- 实现接口缓存协议，使用提供的缓存策略进行接口请求。
 
 ### 配置config文件
 
@@ -50,6 +53,11 @@ setCacheDirectory:是接口缓存地址文件，统一保存在Libiray/Caches下
 //请求的参数
 - (NSDictionary *)parameters {
     return @{@"name":@"steff",@"age":@"30"};
+
+//请求方法，默认为GET
+- (GJRequestMethod)method{
+    return GJRequestPOST;
+}
 
 //请求失败后重试次数
 - (NSUInteger)retryTimes {
@@ -107,6 +115,22 @@ setCacheDirectory:是接口缓存地址文件，统一保存在Libiray/Caches下
     return [UserInfo class];
 }
 ```
+### 接口缓存
 
+实现接口所需的缓存策略，目前提供3种缓存策略：
+- GJNoAPICachePolicy，接口不使用缓存，同时也不进行缓存，默认为此策略；
+- GJUseAPICacheWhenFailedPolicy，接口使用缓存，当请求失败时如果有缓存数据，且缓存未超过时效，则使用缓存数据返回，请求成功自动保存缓存；
+- GJUseAPICacheIfExistPolicy，接口使用缓存，只要有缓存并未失效，则请求一直使用缓存数据，网络请求成功自动保存数据。
 
+```objective-c
+//接口缓存策略
+- (GJAPICachePolicy)cachePolicy {
+    return GJUseAPICacheIfExistPolicy;
+}
+
+//接口缓存时效
+- (NSTimeInterval)cacheValidTime {
+    return 60 * 60;
+}
+```
 
