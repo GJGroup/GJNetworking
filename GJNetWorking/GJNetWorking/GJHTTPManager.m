@@ -200,13 +200,16 @@
 - (NSString *)avalidUrlWithBaseUrl:(NSString *)base
                               path:(NSString *)path{
     
-    NSMutableString *avalidUrl = [NSMutableString stringWithString:base];
+    NSString *baseUrlStr = [base stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *pathStr = [path stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    pathStr = [pathStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+    NSMutableString *avalidUrl = [NSMutableString stringWithString:baseUrlStr];
     
     NSAssert([avalidUrl hasPrefix:@"http"], @"request is not a http or https type!");
     
     BOOL urlSlash = [avalidUrl hasSuffix:@"/"];
     
-    BOOL pathSlash = [path hasPrefix:@"/"];
+    BOOL pathSlash = [pathStr hasPrefix:@"/"];
     
     if (urlSlash && pathSlash) {
         [avalidUrl deleteCharactersInRange:NSMakeRange(avalidUrl.length - 1, 1)];
@@ -215,7 +218,7 @@
         [avalidUrl appendString:@"/"];
     }
     
-    [avalidUrl appendString:path];
+    [avalidUrl appendString:pathStr];
     
     return avalidUrl;
     

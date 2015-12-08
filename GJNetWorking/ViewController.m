@@ -23,7 +23,7 @@
     [request startWithSuccessBlock:^(id responseObject, id status, NSError *error) {
         
         GCTestModel *model = (GCTestModel*)responseObject;
-        NSLog(@"%@",model);
+        NSLog(@"%@\nstatus %@",model,status);
         
     } failedBlock:^(id responseObject, id status, NSError *error) {
         
