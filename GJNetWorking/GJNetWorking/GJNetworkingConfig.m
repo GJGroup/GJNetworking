@@ -13,7 +13,7 @@ static NSSet *acceptableContentTypes;
 static BOOL allowInvalidCertificates = NO;
 static BOOL validatesDomainName = NO;
 static int maxConcurrentOperationCount = 4;
-static id<GJModelMakerDelegate> modelMaker;
+static Class<GJModelMakerDelegate> modelMaker;
 static NSTimeInterval timeOutInterval = 60;
 
 @implementation GJNetworkingConfig
@@ -24,14 +24,14 @@ static NSTimeInterval timeOutInterval = 60;
       validatesDomainName:(BOOL)validDomain
         maxOperationCount:(int)operationCount
           timeOutInterval:(NSTimeInterval)timeOut
-               modelMaker:(id<GJModelMakerDelegate>)maker{
+               modelMaker:(Class<GJModelMakerDelegate>)maker{
     
     baseUrl = base ? [base copy] : nil;
     acceptableContentTypes = contentTypes ? contentTypes : nil;
     allowInvalidCertificates = allowInvalidCer;
     validatesDomainName = validDomain;
     maxConcurrentOperationCount = operationCount ? operationCount : 4;
-    if (!modelMaker && maker) {
+    if (maker) {
         modelMaker = maker;
     }
     timeOutInterval = timeOut ? timeOut : 60;
@@ -57,7 +57,7 @@ static NSTimeInterval timeOutInterval = 60;
     return maxConcurrentOperationCount;
 }
 
-+ (id<GJModelMakerDelegate>)modelMaker{
++ (Class<GJModelMakerDelegate>)modelMaker{
     return modelMaker;
 }
 

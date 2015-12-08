@@ -25,12 +25,14 @@
         //when request or default modelMaker implement the delegate ,
         //the response object will be make to model or model list.
         if (success && [weakSelf respondsToSelector:@selector(modelClass)]){
-            id<GJModelMakerDelegate> defaultModelMaker = [GJNetworkingConfig modelMaker];
-            id<GJModelMakerDelegate> modelMaker = nil;
-            if (weakSelf && [weakSelf respondsToSelector:@selector(makeModelWithJSON:class:status:)]) {
-                modelMaker = weakSelf;
+            Class defaultModelMaker = [GJNetworkingConfig modelMaker];
+            Class modelMaker = nil;
+            if (weakSelf && [[weakSelf class] respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
+                [[weakSelf class] conformsToProtocol:@protocol(GJModelMakerDelegate)]) {
+                modelMaker = [weakSelf class];
             }
-            else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)]){
+            else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
+                     [defaultModelMaker conformsToProtocol:@protocol(GJModelMakerDelegate)]){
                 modelMaker = defaultModelMaker;
             }
             

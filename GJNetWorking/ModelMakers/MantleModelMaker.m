@@ -11,7 +11,7 @@
 
 @implementation MantleModelMaker
 
-- (id)makeModelWithJSON:(NSDictionary *)json
++ (id)makeModelWithJSON:(NSDictionary *)json
                   class:(Class)modelClass
                  status:(id __autoreleasing *)status{
     
@@ -33,5 +33,5 @@
     NSLog(@"unavailable json!");
     return nil;
 }
-//主播先去刷奶瓶
+
 @end

@@ -25,8 +25,10 @@
                       validatesDomainName:NO
                         maxOperationCount:4
                           timeOutInterval:20
-                               modelMaker:[MantleModelMaker new]];
+                               modelMaker:[MantleModelMaker class]];
     [GJNetworkingConfig setCacheDirectory:@"apiCache"];
+    
+//    BOOL conform = [MantleModelMaker conformsToProtocol:@protocol(GJModelMakerDelegate)];
     
     return YES;
     

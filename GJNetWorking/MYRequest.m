@@ -36,4 +36,5 @@
 - (NSTimeInterval)cacheValidTime {
     return 60 * 60;
 }
+
 @end

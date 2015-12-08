@@ -18,7 +18,7 @@
       validatesDomainName:(BOOL)validDomain
         maxOperationCount:(int)operationCount
           timeOutInterval:(NSTimeInterval)timeOut
-               modelMaker:(id<GJModelMakerDelegate>)maker;
+               modelMaker:(Class<GJModelMakerDelegate>)maker;
 
 + (NSString *)defaultBaseUrl;
 
@@ -30,7 +30,7 @@
 
 + (int)maxConcurrentOperationCount;
 
-+ (id<GJModelMakerDelegate>)modelMaker;
++ (Class<GJModelMakerDelegate>)modelMaker;
 
 + (NSTimeInterval)timeOutInterval;
 

@@ -11,7 +11,8 @@
 @protocol GJModelMakerDelegate <NSObject>
 
 @optional
-- (id)makeModelWithJSON:(NSDictionary *)json
+
++ (id)makeModelWithJSON:(NSDictionary *)json
                   class:(Class)modelClass
                  status:(id __autoreleasing *)status;
 
