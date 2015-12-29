@@ -15,3 +15,6 @@ GJModelRequest 负责合成model
 待定需求：
 请求后直接返回缓存，同时网络请求开始
 
+缓存清除接口
+
+GJRequestGroup 统一 callback
