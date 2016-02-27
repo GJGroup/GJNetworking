@@ -11,13 +11,14 @@
 #import <Foundation/Foundation.h>
 #import "GJRequestProtocol.h"
 #import "GJNetworkingConfig.h"
+#import "GJBaseRequest.h"
 
 @interface GJHTTPManager : NSObject
 
 + (GJHTTPManager *)sharedManager;
 
-- (void)startRequest:(id<GJRequestProtocol>)request;
+- (void)startRequest:(GJBaseRequest *)request;
 
-- (void)cancelRequest:(id<GJRequestProtocol>)request;
+- (BOOL)cancelRequest:(GJBaseRequest *)request;
 
 @end

@@ -8,71 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, GJRequestMethod) {
-    GJRequestGET,
-    GJRequestPOST,
-    GJRequestHEAD,
-    GJRequestPUT,
-    GJRequestPATCH,
-    GJRequestDELET
-};
-
-typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *error);
-
-
-@protocol GJRequestProtocol;
-
+@class GJBaseRequest;
 
 @protocol GJRequestDelegate <NSObject>
 
-- (void)requestWillStart:(id<GJRequestProtocol>)request;
-- (void)requestDidStart:(id<GJRequestProtocol>)request;
+- (void)requestWillStart:(GJBaseRequest *)request;
+- (void)requestDidStart:(GJBaseRequest *)request;
 
-- (void)requestWillStop:(id<GJRequestProtocol>)request;
-- (void)requestDidStop:(id<GJRequestProtocol>)request;
-
-@end
-
-
-@protocol GJRequestProtocol <NSObject>
-
-@property (nonatomic, weak) id<GJRequestDelegate> delegate;
-
-//the real task object, we use 'id' because we don't want ref specific object.
-@property (nonatomic ,weak) id task;
-
-@property (nonatomic ,copy) GJRequestFinishedBlock successBlock;
-
-@property (nonatomic ,copy) GJRequestFinishedBlock failedBlock;
-
-- (GJRequestMethod)method;
-
-- (void)start;
-
-- (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
-                  failedBlock:(GJRequestFinishedBlock)failed;
-
-- (void)cancel;
-
-- (void)retry;
-
-- (NSUInteger)currentRetryTimes;
-
-
-//user implement methods
-@optional
-
-//default base url is setted in GJNetWorkingConfig and you can set single base url.
-- (NSString *)baseUrl;
-
-- (NSString *)path;
-
-- (NSDictionary *)parameters;
-
-- (NSUInteger)retryTimes;
-
-- (NSTimeInterval)timeOutInterval;
-
-
+- (void)requestWillStop:(GJBaseRequest *)request;
+- (void)requestDidStop:(GJBaseRequest *)request;
 
 @end
+

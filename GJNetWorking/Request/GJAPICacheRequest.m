@@ -12,14 +12,18 @@
 
 @interface GJAPICacheRequest ()
 
-@property (nonatomic, assign) BOOL callBackUseCache;
+/**
+ *  使用的缓存对象
+ */
+@property (nonatomic, strong) id cacheObject;
+@property (nonatomic, readwrite) GJRequestState state;
 
 @end
 
 @implementation GJAPICacheRequest
 
 - (GJAPICachePolicy)cachePolicy {
-    return GJNoAPICachePolicy;
+    return GJNotAPICachePolicy;
 }
 
 - (NSTimeInterval)cacheValidTime {
@@ -30,12 +34,27 @@
     return nil;
 }
 
+- (NSError *)error {
+    if (self.cacheObject) {
+        return nil;
+    }
+    return [super error];
+}
+
+- (id)responseObject {
+    if (self.cacheObject) {
+        return self.cacheObject;
+    }
+    return [super responseObject];
+}
+
 - (void)start {
     
     BOOL useCache = ([self cachePolicy] == GJUseAPICacheIfExistPolicy);
     
     NSString *filePath = [self apiCacheFilePath];
     
+    //不用缓存 或 缓存文件不存在 或 缓存时间超时 则 重新请求
     if (!useCache ||
         ![self fileExist:filePath] ||
         ![self checkCacheValidTimeCanBeUsed]) {
@@ -43,60 +62,58 @@
         return;
     }
     
-    NSDictionary *cacheJsonDic = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    if (!cacheJsonDic || !self.successBlock) {
+    id cacheObject = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    
+    //取缓存不可用，重新请求
+    if (!cacheObject || !self.successBlock) {
         [super start];
         return;
     }
     
-    self.callBackUseCache = YES;
-    NSLog(@"use cache data %@",cacheJsonDic);
-    self.successBlock(cacheJsonDic , nil, nil);
+    //缓存可用
+    self.cacheObject = cacheObject;
+    
+    NSLog(@"use cache data %@",cacheObject);
+    
+    [self requestTerminate];
+    
+//    self.state = GJRequestStateFinished;
+//    [self requestCompleted];
+//    
+//    !self.successBlock ? : self.successBlock(self.responseObject , nil, nil);
+//    !self.completedBlock ? : self.completedBlock(self);
 
 }
 
-
-- (void)setSuccessBlock:(GJRequestFinishedBlock)successBlock {
+//网络请求结束后,callback前调用,
+- (void)requestCompleted {
+    BOOL success = !self.error;
     
-    __weak typeof(self) weakSelf = self;
-    
-    [super setSuccessBlock:^(id responseJson, id status , NSError *error) {
-        
-        if (([weakSelf cachePolicy] == GJUseAPICacheIfExistPolicy ||
-            [weakSelf cachePolicy] == GJUseAPICacheWhenFailedPolicy) &&
-            ![weakSelf callBackUseCache]) {
+    if (success) {
+        [self archiveJson:self.responseObject];
+    }
+    else {
+        if ([self cachePolicy] == GJUseAPICacheWhenFailedPolicy) {
             
-            [weakSelf archiveJsonToCurrentAPICache:responseJson];
-            
-        }
-        
-        !successBlock ? : successBlock(responseJson , status, error);
-
-    }];
-}
-
-- (void)setFailedBlock:(GJRequestFinishedBlock)failedBlock {
-    
-    __weak typeof(self) weakSelf = self;
-
-    [super setFailedBlock:^(id responseJson, id status , NSError *error) {
-        
-        if ([weakSelf cachePolicy] == GJUseAPICacheWhenFailedPolicy) {
-            
-            NSDictionary *cacheJsonDic = [NSKeyedUnarchiver unarchiveObjectWithFile:[weakSelf apiCacheFilePath]];
-            if (!cacheJsonDic || !weakSelf.successBlock) {
-                !failedBlock ? : failedBlock(responseJson , status, error);
+            id cacheJsonDic = [NSKeyedUnarchiver unarchiveObjectWithFile:[self apiCacheFilePath]];
+            if (cacheJsonDic) {
+                self.cacheObject = cacheJsonDic;
                 return;
             }
-            
-            NSLog(@"use cache data %@",cacheJsonDic);
-            weakSelf.successBlock(cacheJsonDic , nil, nil);
-            return;
-            
+
         }
+
+    }
+}
+
+- (void)archiveJson:(id)responseJson {
+    //是否存档,必须是没有使用cacheObject的时候
+    if (([self cachePolicy] == GJUseAPICacheIfExistPolicy ||
+         [self cachePolicy] == GJUseAPICacheWhenFailedPolicy) &&
+        ![self cacheObject]) {
         
-        !failedBlock ? : failedBlock(responseJson , status, error);
-    }];
+        [self archiveJsonToCurrentAPICache:responseJson];
+    }
 }
 
 - (BOOL)checkCacheValidTimeCanBeUsed {

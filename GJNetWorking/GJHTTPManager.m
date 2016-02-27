@@ -8,6 +8,8 @@
 
 #import "GJHTTPManager.h"
 #import "AFNetworking.h"
+#import "GCDNSManager.h"
+
 
 @interface GJHTTPManager ()
 
@@ -39,9 +41,13 @@
     return self;
 }
 
-- (void)startRequest:(id<GJRequestProtocol>)request{
-        
-    NSString *baseUrl = nil;
+- (void)startRequest:(GJBaseRequest *)request {
+    
+    //clear requestSerializer
+    self.manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    __block NSString *baseUrl = nil;
+    
     if ([request respondsToSelector:@selector(baseUrl)]) {
         baseUrl = [request baseUrl];
     }
@@ -49,13 +55,22 @@
     if (!baseUrl.length) {
         baseUrl = [GJNetworkingConfig defaultBaseUrl];
     }
-    NSParameterAssert(baseUrl);
+    
+    if ([request respondsToSelector:@selector(dNSWithBaseUrl:dNSBlock:)]) {
+        [request dNSWithBaseUrl:baseUrl
+                       dNSBlock:^(BOOL usedDNS, NSString *domain, NSString *newBaseUrl) {
+            if (usedDNS) {
+                baseUrl = [newBaseUrl copy];
+                [_manager.requestSerializer setValue:domain forKey:@"host"];
+            }
+        }];
+    }
     
     NSString *path = [request path];
+    
+    NSParameterAssert(baseUrl);
     NSParameterAssert(path);
     
-    GJRequestMethod method = [request method];
-
     NSString *avalidUrl = [self avalidUrlWithBaseUrl:baseUrl
                                                 path:path];
     
@@ -72,7 +87,7 @@
     }
 
     [self requestWithUrl:avalidUrl
-                  method:method
+                  method:[request method]
               parameters:parameters
                  request:request];
 }
@@ -80,7 +95,7 @@
 - (void)requestWithUrl:(NSString *)url
                 method:(GJRequestMethod)method
             parameters:(NSDictionary *)parameters
-               request:(id<GJRequestProtocol>)request{
+               request:(GJBaseRequest *)request {
     
     AFHTTPRequestOperation *startOperation = nil;
     
@@ -93,7 +108,7 @@
                                            [self requestFinishedWithOperation:operation request:request];
                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                            [self requestFinishedWithOperation:operation request:request];
-                                       }];
+;                                       }];
         }
             break;
         case GJRequestPOST:
@@ -161,39 +176,30 @@
 }
 
 - (void)requestFinishedWithOperation:(AFHTTPRequestOperation*)operation
-                             request:(id<GJRequestProtocol>)request{
+                             request:(GJBaseRequest *)request {
     
+    GJBaseRequest *strongRequest = request;
     BOOL success = operation.error ? NO : YES;
-    id responseObject = operation.responseObject;
     
     //retry
-    if (!success && [request retryTimes] > [request currentRetryTimes]) {
-        [request retry];
+    if (!success && [strongRequest retryTimes] > [strongRequest currentRetryTimes]) {
+        [strongRequest retry];
         return;
     }
     
-    //call back
-    id<GJRequestProtocol> strongRequest = request;
-    if (success && request.successBlock) {
-        strongRequest.successBlock(responseObject, nil, nil);
-    }
-    
-    if (!success && request.failedBlock) {
-        strongRequest.failedBlock(responseObject, nil, operation.error);
-    }
-    
-    strongRequest.successBlock = nil;
-    strongRequest.failedBlock = nil;
-    
+    //没有重试则请求完成
+    [strongRequest requestTerminate];
 }
 
-- (void)cancelRequest:(id<GJRequestProtocol>)request{
+- (BOOL)cancelRequest:(GJBaseRequest *)request{
     if (request.task) {
         AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)request.task;
         if (operation && !operation.isCancelled) {
             [operation cancel];
+            return YES;
         }
     }
+    return NO;
 }
 
 

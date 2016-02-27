@@ -12,7 +12,7 @@ typedef NS_ENUM(NSUInteger, GJAPICachePolicy) {
     /**
      * 不用缓存，不存缓存
      */
-    GJNoAPICachePolicy,
+    GJNotAPICachePolicy,
     
     /**
      * 请求失败时使用缓存(如果缓存有效期内)，存储缓存
@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, GJAPICachePolicy) {
 //};
 
 @interface GJAPICacheRequest : GJBaseRequest
+
+@property (nonatomic, readonly) GJRequestState state;
 
 /**
  *  接口可以自定义缓存地址

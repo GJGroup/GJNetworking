@@ -8,91 +8,111 @@
 
 #import "GJBaseRequest.h"
 #import "GJHTTPManager.h"
+#import "AFHTTPRequestOperation.h"
 
 @interface GJBaseRequest ()
-{
-    GJRequestFinishedBlock _successBlock;
-    GJRequestFinishedBlock _failedBlock;
-    __weak id _delegate;
-    __weak id _task;
-    NSUInteger _currentRetryTimes;
-}
+
+@property (readwrite, nonatomic) GJRequestState state;
+@property (nonatomic, copy, readwrite) GJCompletedBlock completedBlock;
+@property (nonatomic, copy, readwrite) GJRequestFinishedBlock successBlock;
+@property (nonatomic, copy, readwrite) GJRequestFinishedBlock failedBlock;
+@property (nonatomic, readwrite, strong) id status;
 
 @end
 
 @implementation GJBaseRequest
 
 //default method is 'GET'
-- (GJRequestMethod)method{
+- (GJRequestMethod)method {
     return GJRequestGET;
 }
 
-- (void)start{
-
+- (void)start {
+    self.state = GJRequestStateExcuting;
     [[GJHTTPManager sharedManager] startRequest:self];
- 
 }
 
 - (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
-                  failedBlock:(GJRequestFinishedBlock)failed
-{
+                  failedBlock:(GJRequestFinishedBlock)failed {
     self.successBlock = success;
     self.failedBlock = failed;
     [self start];
 }
 
-- (void)cancel{
-    [[GJHTTPManager sharedManager] cancelRequest:self];
-}
-
-- (void)retry{
-    _currentRetryTimes ++;
+- (void)startWithCompletedBlock:(GJCompletedBlock)completedBlock {
+    self.completedBlock = completedBlock;
     [self start];
 }
 
-- (NSUInteger)retryTimes{
+- (void)cancel {
+    if ([[GJHTTPManager sharedManager] cancelRequest:self]) {
+        self.state = GJRequestStateCanceled;
+    }
+}
+
+- (void)retry {
+    if (self.state == GJRequestStateFinished) {
+        _currentRetryTimes ++;
+        [self start];
+    }
+}
+
+- (NSUInteger)retryTimes {
     return 0;
 }
 
-#pragma mark- property impletemention
-
-- (void)setDelegate:(id<GJRequestDelegate>)delegate{
-    _delegate = delegate;
+- (BOOL)isRequestSuccessed {
+    return !self.error;
 }
 
-- (id<GJRequestDelegate>)delegate{
-    return _delegate;
+- (BOOL)isCanceled {
+    self.task.isCancelled;
 }
 
-- (void)setSuccessBlock:(GJRequestFinishedBlock)successBlock{
-    _successBlock = successBlock;
+- (BOOL)isNetWorking{
+    return self.state == GJRequestStateExcuting;
 }
 
-- (void)setFailedBlock:(GJRequestFinishedBlock)failedBlock{
-    _failedBlock = failedBlock;
+- (NSError *)error {
+    return self.task.error;
 }
 
-- (GJRequestFinishedBlock)successBlock{
-    return _successBlock;
+- (id)responseObject {
+    return self.task.responseObject;
 }
 
-- (GJRequestFinishedBlock)failedBlock{
-    return _failedBlock;
+- (id)responseJson {
+    return self.task.responseObject;
 }
 
-- (void)setTask:(id)task{
-    _task = task;
+- (void)requestTerminate {
+    
+    if (!self.task.isCancelled) {
+        self.state = GJRequestStateFinished;
+    }
+    
+    [self requestCompleted];
+    
+    BOOL success = !self.error;
+    
+    id responseObject = self.responseObject;
+    //call back
+    if (success && self.successBlock) {
+        self.successBlock(responseObject, nil, self.status);
+    }
+    
+    if (!success && self.failedBlock) {
+        self.failedBlock(responseObject, nil, self.error);
+    }
+    
+    !self.completedBlock ? : self.completedBlock(self);
+    
+    self.successBlock = nil;
+    self.failedBlock = nil;
+    self.completedBlock = nil;
 }
 
-- (id)task{
-    return _task;
+- (void)requestCompleted {
 }
-
-- (NSUInteger)currentRetryTimes{
-    return _currentRetryTimes;
-}
-
-
-
 
 @end

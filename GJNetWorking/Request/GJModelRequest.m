@@ -9,46 +9,55 @@
 #import "GJModelRequest.h"
 #import "GJNetworkingConfig.h"
 
+@interface GJModelRequest ()
+
+@property (nonatomic, readwrite, strong) id responseModel;
+@property (nonatomic, readwrite, strong) id status;
+
+@end
+
 @implementation GJModelRequest
 
-- (void)setSuccessBlock:(GJRequestFinishedBlock)successBlock {
-    __weak typeof(self) weakSelf = self;
-    
-    [super setSuccessBlock:^(id responseJson, id status , NSError *error){
-        
-        //make model
-        BOOL success = error ? NO : YES;
-        id responseStatus;
-        id responseObject = responseJson;
-        
-        //if request success and request implement modelClass,
-        //when request or default modelMaker implement the delegate ,
-        //the response object will be make to model or model list.
-        if (success && [weakSelf respondsToSelector:@selector(modelClass)]){
-            Class defaultModelMaker = [GJNetworkingConfig modelMaker];
-            Class modelMaker = nil;
-            if (weakSelf && [[weakSelf class] respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
-                [[weakSelf class] conformsToProtocol:@protocol(GJModelMakerDelegate)]) {
-                modelMaker = [weakSelf class];
-            }
-            else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
-                     [defaultModelMaker conformsToProtocol:@protocol(GJModelMakerDelegate)]){
-                modelMaker = defaultModelMaker;
-            }
-            
-            if (modelMaker) {
-                responseObject = [modelMaker makeModelWithJSON:responseObject
-                                                         class:[weakSelf modelClass]
-                                                        status:&responseStatus];
-            }
-            
-        }
-        
-        !successBlock ? : successBlock(responseObject , responseStatus, error);
-        
-    }];
-
+- (id)responseObject {
+    if (self.responseModel) {
+        return self.responseModel;
+    }
+    return [super responseObject];
 }
 
+- (void)requestCompleted{
+    
+    [super requestCompleted];
+    
+    BOOL success = !self.error;
+    
+    id responseStatus;
+    id responseObject = self.responseObject;
+
+    //if request success and request implement modelClass,
+    //when request or default modelMaker implement the delegate ,
+    //the response object will be make to model or model list.
+    if (success && [self respondsToSelector:@selector(modelClass)]){
+        Class defaultModelMaker = [GJNetworkingConfig modelMaker];
+        Class modelMaker = nil;
+        if (self && [[self class] respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
+            [[self class] conformsToProtocol:@protocol(GJModelMakerDelegate)]) {
+            modelMaker = [self class];
+        }
+        else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
+                 [defaultModelMaker conformsToProtocol:@protocol(GJModelMakerDelegate)]){
+            modelMaker = defaultModelMaker;
+        }
+        
+        if (modelMaker) {
+            self.responseModel = [modelMaker makeModelWithJSON:responseObject
+                                                         class:[self modelClass]
+                                                        status:&responseStatus];
+            self.status = responseStatus;
+        }
+        
+    }
+
+}
 
 @end
