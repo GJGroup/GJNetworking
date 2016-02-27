@@ -40,7 +40,6 @@
 		420DFA261C172644007743E6 /* GJHTTPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJHTTPManager.h; sourceTree = "<group>"; };
 		420DFA271C172644007743E6 /* GJHTTPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJHTTPManager.m; sourceTree = "<group>"; };
 		420DFA281C172644007743E6 /* GJModelMakerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJModelMakerDelegate.h; sourceTree = "<group>"; };
-		420DFA291C172644007743E6 /* GJModelReqeustProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJModelReqeustProtocol.h; sourceTree = "<group>"; };
 		420DFA2A1C172644007743E6 /* GJNetworkingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJNetworkingConfig.h; sourceTree = "<group>"; };
 		420DFA2B1C172644007743E6 /* GJNetworkingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJNetworkingConfig.m; sourceTree = "<group>"; };
 		420DFA2C1C172644007743E6 /* GJRequestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRequestProtocol.h; sourceTree = "<group>"; };
@@ -130,7 +129,6 @@
 				420DFA261C172644007743E6 /* GJHTTPManager.h */,
 				420DFA271C172644007743E6 /* GJHTTPManager.m */,
 				420DFA281C172644007743E6 /* GJModelMakerDelegate.h */,
-				420DFA291C172644007743E6 /* GJModelReqeustProtocol.h */,
 				420DFA2A1C172644007743E6 /* GJNetworkingConfig.h */,
 				420DFA2B1C172644007743E6 /* GJNetworkingConfig.m */,
 				420DFA2C1C172644007743E6 /* GJRequestProtocol.h */,

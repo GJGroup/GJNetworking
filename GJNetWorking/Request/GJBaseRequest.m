@@ -66,7 +66,7 @@
 }
 
 - (BOOL)isCanceled {
-    self.task.isCancelled;
+    return self.task.isCancelled;
 }
 
 - (BOOL)isNetWorking{

@@ -8,7 +8,6 @@
 
 #import "GJHTTPManager.h"
 #import "AFNetworking.h"
-#import "GCDNSManager.h"
 
 
 @interface GJHTTPManager ()
