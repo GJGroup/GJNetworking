@@ -98,7 +98,7 @@
     id responseObject = self.responseObject;
     //call back
     if (success && self.successBlock) {
-        self.successBlock(responseObject, nil, self.status);
+        self.successBlock(responseObject, self.status, nil);
     }
     
     if (!success && self.failedBlock) {
