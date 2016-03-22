@@ -172,5 +172,6 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
  */
 - (void)requestTerminate;
 
-
+- (BOOL)shouldRetryWithResponseObject:(id)responseObject
+                                error:(NSError *)error;
 @end

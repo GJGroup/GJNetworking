@@ -180,6 +180,16 @@
     GJBaseRequest *strongRequest = request;
     BOOL success = operation.error ? NO : YES;
     
+    if ([strongRequest respondsToSelector:@selector(shouldRetryWithResponseObject:error:)]) {
+        BOOL shouldRetry = [strongRequest shouldRetryWithResponseObject:operation.responseObject
+                                                                  error:operation.error];
+        
+        if (shouldRetry) {
+            [strongRequest start];
+            return;
+        }
+    }
+    
     //retry
     if (!success && [strongRequest retryTimes] > [strongRequest currentRetryTimes]) {
         [strongRequest retry];

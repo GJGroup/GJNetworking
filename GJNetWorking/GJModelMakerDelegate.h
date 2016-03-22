@@ -14,6 +14,7 @@
 
 + (id)makeModelWithJSON:(NSDictionary *)json
                   class:(Class)modelClass
+               keysPath:(NSArray *)keysPath
                  status:(id __autoreleasing *)status;
 
 @end

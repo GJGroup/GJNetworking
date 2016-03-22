@@ -32,7 +32,7 @@
     BOOL success = !self.error;
     
     id responseStatus;
-    id responseObject = self.responseObject;
+    id responseObject = [self responseObject];
 
     //if request success and request implement modelClass,
     //when request or default modelMaker implement the delegate ,
@@ -40,11 +40,11 @@
     if (success && [self respondsToSelector:@selector(modelClass)]){
         Class defaultModelMaker = [GJNetworkingConfig modelMaker];
         Class modelMaker = nil;
-        if (self && [[self class] respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
+        if (self && [[self class] respondsToSelector:@selector(makeModelWithJSON:class:keysPath:status:)] &&
             [[self class] conformsToProtocol:@protocol(GJModelMakerDelegate)]) {
             modelMaker = [self class];
         }
-        else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:status:)] &&
+        else if (defaultModelMaker && [defaultModelMaker respondsToSelector:@selector(makeModelWithJSON:class:keysPath:status:)] &&
                  [defaultModelMaker conformsToProtocol:@protocol(GJModelMakerDelegate)]){
             modelMaker = defaultModelMaker;
         }
@@ -52,12 +52,17 @@
         if (modelMaker) {
             self.responseModel = [modelMaker makeModelWithJSON:responseObject
                                                          class:[self modelClass]
+                                                      keysPath:[self modelKeysPath]
                                                         status:&responseStatus];
             self.status = responseStatus;
         }
         
     }
 
+}
+
+- (NSArray<NSString *> *)modelKeysPath {
+    return nil;
 }
 
 @end

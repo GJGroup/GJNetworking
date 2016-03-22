@@ -51,10 +51,8 @@
 }
 
 - (void)retry {
-    if (self.state == GJRequestStateFinished) {
-        _currentRetryTimes ++;
-        [self start];
-    }
+    _currentRetryTimes ++;
+    [self start];
 }
 
 - (NSUInteger)retryTimes {
@@ -96,6 +94,7 @@
     BOOL success = !self.error;
     
     id responseObject = self.responseObject;
+
     //call back
     if (success && self.successBlock) {
         self.successBlock(responseObject, self.status, nil);

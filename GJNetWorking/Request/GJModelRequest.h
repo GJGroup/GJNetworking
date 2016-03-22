@@ -21,11 +21,17 @@
  */
 @property (nonatomic, readonly, strong) id status;
 
-//if you want to make model call back, you must implement this method for makeModel Protocol.
 /**
  *  如果想自动转换model，则需要实现此方法，返回需要转换的model类型
  *  同时也必须指定modelMaker
  */
 - (Class)modelClass;
+
+/**
+ *  modelMaker中可以根据这个返回的参数来进行解析
+ *
+ *  @return [@"data","modelList"];
+ */
+- (NSArray<NSString *> *)modelKeysPath;
 
 @end
