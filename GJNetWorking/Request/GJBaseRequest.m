@@ -8,7 +8,6 @@
 
 #import "GJBaseRequest.h"
 #import "GJHTTPManager.h"
-#import "AFHTTPRequestOperation.h"
 
 @interface GJBaseRequest ()
 
@@ -17,6 +16,9 @@
 @property (nonatomic, copy, readwrite) GJRequestFinishedBlock successBlock;
 @property (nonatomic, copy, readwrite) GJRequestFinishedBlock failedBlock;
 @property (nonatomic, readwrite, strong) id status;
+@property (nonatomic, readwrite, strong) NSError *error;
+@property (nonatomic, readwrite, strong) id responseObject;
+
 
 @end
 
@@ -64,28 +66,21 @@
 }
 
 - (BOOL)isCanceled {
-    return self.task.isCancelled;
+    if (self.task.state == NSURLSessionTaskStateCanceling || self.error.code == -999) return YES;
+    return NO;
 }
 
 - (BOOL)isNetWorking{
     return self.state == GJRequestStateExcuting;
 }
 
-- (NSError *)error {
-    return self.task.error;
-}
-
-- (id)responseObject {
-    return self.task.responseObject;
-}
-
 - (id)responseJson {
-    return self.task.responseObject;
+    return self.responseObject;
 }
 
 - (void)requestTerminate {
     
-    if (!self.task.isCancelled) {
+    if (!self.isCanceled) {
         self.state = GJRequestStateFinished;
     }
     

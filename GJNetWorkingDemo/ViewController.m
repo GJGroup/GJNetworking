@@ -20,13 +20,10 @@
     [super viewDidLoad];
     
     MYRequest *request = [MYRequest new];
-    [request startWithSuccessBlock:^(id responseObject, id status, NSError *error) {
-        
-        GCTestModel *model = (GCTestModel*)responseObject;
-        NSLog(@"%@\nstatus %@",model,status);
-        
-    } failedBlock:^(id responseObject, id status, NSError *error) {
-        
+    [request startWithCompletedBlock:^(GJBaseRequest *request) {
+        GCTestModel *model = (GCTestModel*)request.responseObject;
+        NSLog(@"%@",model);
+
     }];
     // Do any additional setup after loading the view, typically from a nib.
 }

@@ -45,7 +45,7 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
 /**
  *  请求的任务，目前主要是operation，以后可能会换成session
  */
-@property (nonatomic, strong) AFHTTPRequestOperation *task;
+@property (nonatomic, strong) NSURLSessionTask *task;
 
 /**
  *  请求结束block，参数是当前request
@@ -70,17 +70,17 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
 /**
  *  请求error
  */
-@property (nonatomic, readonly) NSError *error;
+@property (nonatomic, readonly, strong) NSError *error;
 
 /**
  *  请求返回的object，根据request设置可以为json也可为model
  */
-@property (nonatomic, readonly) id responseObject;
+@property (nonatomic, readonly, strong) id responseObject;
 
 /**
  *  请求返回的object，纯json
  */
-@property (nonatomic, readonly) id responseJson;
+@property (nonatomic, readonly, strong) id responseJson;
 
 /**
  *  请求方法

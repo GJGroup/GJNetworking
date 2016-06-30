@@ -16,9 +16,9 @@
 }
 
 - (NSDictionary *)parameters{
-    return @{@"channelId":@"E66C5A44DE9841CC70C3DBD51560EC2B",
+    return @{@"channelId":@"4C9EF1676B564240DF6AA684F968E85A",
             @"clientType":@"1",
-            @"sign":@"b28e3b36bf836b8176b583538ea3f406"};
+            @"sign":@"98793ef4c0cc1f153361e47e7e5c5efc"};
 }
 
 - (GJRequestMethod)method{

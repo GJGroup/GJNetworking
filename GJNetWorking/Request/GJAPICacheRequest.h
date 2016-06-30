@@ -32,8 +32,6 @@ typedef NS_ENUM(NSUInteger, GJAPICachePolicy) {
 
 @interface GJAPICacheRequest : GJBaseRequest
 
-@property (nonatomic, readonly) GJRequestState state;
-
 /**
  *  接口可以自定义缓存地址
  */

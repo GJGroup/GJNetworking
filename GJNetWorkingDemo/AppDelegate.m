@@ -18,7 +18,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [GJNetworkingConfig setDefaultBaseUrl:@"http://10.106.4.154:7070/"
+    [GJNetworkingConfig setDefaultBaseUrl:@"http://yingapi.yirendai.com"
                    acceptableContentTypes:[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]
                  allowInvalidCertificates:YES
                       validatesDomainName:NO

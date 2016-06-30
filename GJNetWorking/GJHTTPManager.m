@@ -9,10 +9,18 @@
 #import "GJHTTPManager.h"
 #import "AFNetworking.h"
 
+@interface GJBaseRequest ()
+
+@property (nonatomic, readwrite, strong) NSError *error;
+
+@property (nonatomic, readwrite, strong) id responseObject;
+
+@end
+
 
 @interface GJHTTPManager ()
 
-@property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
 
 @end
 
@@ -31,7 +39,7 @@
     self = [super init];
     if (!self) return nil;
     
-    self.manager = [AFHTTPRequestOperationManager manager];
+    self.manager = [AFHTTPSessionManager manager];
     self.manager.responseSerializer.acceptableContentTypes = [GJNetworkingConfig acceptableContentTypes];
     self.manager.securityPolicy.allowInvalidCertificates = [GJNetworkingConfig allowInvalidCertificates];
     self.manager.securityPolicy.validatesDomainName = [GJNetworkingConfig validatesDomainName];
@@ -96,93 +104,136 @@
             parameters:(NSDictionary *)parameters
                request:(GJBaseRequest *)request {
     
-    AFHTTPRequestOperation *startOperation = nil;
+    NSURLSessionDataTask *task = nil;
     
     switch (method) {
         case GJRequestGET:
         {
-            startOperation = [self.manager GET:url
-                                    parameters:parameters
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                           [self requestFinishedWithOperation:operation request:request];
-                                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                           [self requestFinishedWithOperation:operation request:request];
-;                                       }];
+            task = [self.manager GET:url
+                          parameters:parameters
+                            progress:^(NSProgress * _Nonnull downloadProgress) {
+                                
+                            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                [self requestFinishedWithOperation:task
+                                                           request:request
+                                                    responseObject:responseObject
+                                                             error:nil];
+                            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                [self requestFinishedWithOperation:task
+                                                           request:request
+                                                    responseObject:nil
+                                                             error:error];
+                            }];
         }
             break;
         case GJRequestPOST:
         {
-            startOperation = [self.manager POST:url
-                                     parameters:parameters
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                            [self requestFinishedWithOperation:operation request:request];
-                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                            [self requestFinishedWithOperation:operation request:request];
-                                        }];
+            task = [self.manager POST:url
+                           parameters:parameters
+                             progress:^(NSProgress * _Nonnull downloadProgress) {
+                                 
+                             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                 [self requestFinishedWithOperation:task
+                                                            request:request
+                                                     responseObject:responseObject
+                                                              error:nil];
+                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [self requestFinishedWithOperation:task
+                                                                request:request
+                                                         responseObject:nil
+                                                                  error:error];
+                                 }];
         }
             break;
         case GJRequestDELET:
         {
-            startOperation = [self.manager DELETE:url
-                                       parameters:parameters
-                                          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                              [self requestFinishedWithOperation:operation request:request];
-                                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                              [self requestFinishedWithOperation:operation request:request];
-                                          }];
+            task = [self.manager DELETE:url
+                             parameters:parameters
+                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                    [self requestFinishedWithOperation:task
+                                                               request:request
+                                                        responseObject:responseObject
+                                                                 error:nil];
+                                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    [self requestFinishedWithOperation:task
+                                                               request:request
+                                                        responseObject:nil
+                                                                 error:error];
+                                }];
         }
             break;
         case GJRequestHEAD:
         {
-            startOperation = [self.manager HEAD:url
-                                     parameters:parameters
-                                        success:^(AFHTTPRequestOperation *operation) {
-                                            [self requestFinishedWithOperation:operation request:request];
-                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                            [self requestFinishedWithOperation:operation request:request];
-                                        }];
-                              
+            task = [self.manager HEAD:url
+                           parameters:parameters
+                              success:^(NSURLSessionDataTask * _Nonnull task) {
+                                  [self requestFinishedWithOperation:task
+                                                             request:request
+                                                      responseObject:nil
+                                                               error:nil];
+                              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                  [self requestFinishedWithOperation:task
+                                                             request:request
+                                                      responseObject:nil
+                                                               error:error];
+                              }];
         }
             break;
         case GJRequestPUT:
         {
-            startOperation = [self.manager PUT:url
-                                    parameters:parameters
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                           [self requestFinishedWithOperation:operation request:request];
-                                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                           [self requestFinishedWithOperation:operation request:request];
-                                       }];
+            task = [self.manager PUT:url
+                          parameters:parameters
+                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                 [self requestFinishedWithOperation:task
+                                                            request:request
+                                                     responseObject:responseObject
+                                                              error:nil];
+                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                 [self requestFinishedWithOperation:task
+                                                            request:request
+                                                     responseObject:nil
+                                                              error:error];
+                             }];
         }
             break;
         case GJRequestPATCH:
         {
-            startOperation = [self.manager PATCH:url
-                                      parameters:parameters
-                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                             [self requestFinishedWithOperation:operation request:request];
-                                         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                             [self requestFinishedWithOperation:operation request:request];
-                                         }];
+            task = [self.manager PATCH:url
+                            parameters:parameters
+                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                   [self requestFinishedWithOperation:task
+                                                              request:request
+                                                       responseObject:responseObject
+                                                                error:nil];
+                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                   [self requestFinishedWithOperation:task
+                                                              request:request
+                                                       responseObject:nil
+                                                                error:error];
+                               }];
         }
             break;
         default:
             break;
     }
     
-    request.task = startOperation;
+    request.task = task;
     
 }
 
-- (void)requestFinishedWithOperation:(AFHTTPRequestOperation*)operation
-                             request:(GJBaseRequest *)request {
+- (void)requestFinishedWithOperation:(NSURLSessionDataTask *)task
+                             request:(GJBaseRequest *)request
+                      responseObject:(id)responseObject
+                               error:(NSError *)error {
     
     GJBaseRequest *strongRequest = request;
-    BOOL success = operation.error ? NO : YES;
+    request.error = error;
+    request.responseObject = responseObject;
+    BOOL success = request.error ? NO : YES;
     
     if ([strongRequest respondsToSelector:@selector(shouldRetryWithResponseObject:error:)]) {
-        BOOL shouldRetry = [strongRequest shouldRetryWithResponseObject:operation.responseObject
-                                                                  error:operation.error];
+        BOOL shouldRetry = [strongRequest shouldRetryWithResponseObject:responseObject
+                                                                  error:error];
         
         if (shouldRetry) {
             [strongRequest start];
@@ -202,11 +253,11 @@
 
 - (BOOL)cancelRequest:(GJBaseRequest *)request{
     if (request.task) {
-        AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)request.task;
-        if (operation && !operation.isCancelled) {
-            [operation cancel];
-            return YES;
-        }
+//        AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)request.task;
+//        if (operation && !operation.isCancelled) {
+//            [operation cancel];
+//            return YES;
+//        }
     }
     return NO;
 }
