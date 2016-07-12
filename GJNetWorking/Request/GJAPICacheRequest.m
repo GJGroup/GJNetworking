@@ -16,7 +16,6 @@
  *  使用的缓存对象
  */
 @property (nonatomic, strong) id cacheObject;
-@property (nonatomic, readwrite) GJRequestState state;
 
 @end
 
@@ -48,6 +47,13 @@
     return [super responseObject];
 }
 
+- (id)responseJson {
+    if (self.cacheObject) {
+        return self.cacheObject;
+    }
+    return [super responseJson];
+}
+
 - (void)start {
     
     BOOL useCache = ([self cachePolicy] == GJUseAPICacheIfExistPolicy);
@@ -65,7 +71,7 @@
     id cacheObject = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     
     //取缓存不可用，重新请求
-    if (!cacheObject || !self.successBlock) {
+    if (!cacheObject) {
         [super start];
         return;
     }
@@ -73,26 +79,17 @@
     //缓存可用
     self.cacheObject = cacheObject;
     
-    NSLog(@"use cache data %@",cacheObject);
-    
     [self requestTerminate];
-    
-//    self.state = GJRequestStateFinished;
-//    [self requestCompleted];
-//    
-//    !self.successBlock ? : self.successBlock(self.responseObject , nil, nil);
-//    !self.completedBlock ? : self.completedBlock(self);
-
 }
 
 //网络请求结束后,callback前调用,
 - (void)requestCompleted {
     BOOL success = !self.error;
     
-    if (success) {
+    if (success) {//成功，保存缓存
         [self archiveJson:self.responseObject];
     }
-    else {
+    else {//失败，如果是失败用缓存的策略，则使用缓存
         if ([self cachePolicy] == GJUseAPICacheWhenFailedPolicy) {
             
             id cacheJsonDic = [NSKeyedUnarchiver unarchiveObjectWithFile:[self apiCacheFilePath]];
@@ -100,9 +97,7 @@
                 self.cacheObject = cacheJsonDic;
                 return;
             }
-
         }
-
     }
 }
 

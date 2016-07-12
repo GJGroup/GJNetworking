@@ -27,6 +27,12 @@ typedef NS_ENUM(NSUInteger, GJRequestState) {
     GJRequestStateFinished
 };
 
+typedef NS_ENUM(NSUInteger, GJResponseType) {
+    GJResponseTypeDefault,  //default is json
+    GJResponseTypeImage     //this is return image object response type
+};
+
+
 
 typedef void (^GJCompletedBlock)(GJBaseRequest * request);
 typedef void (^GJRequestFinishedBlock)(id responseObject, id status , NSError *error);
@@ -88,12 +94,6 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
 - (GJRequestMethod)method;
 
 /**
- *  发出请求的方法，参数是回调block
- */
-- (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
-                  failedBlock:(GJRequestFinishedBlock)failed;
-
-/**
  *  发出请求的方法，参数是回调block，不区分成功失败，可从request的属性中取到，更为灵活
  */
 - (void)startWithCompletedBlock:(GJCompletedBlock)completedBlock;
@@ -116,7 +116,7 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
 /**
  *  请求是否在执行中
  */
-- (BOOL)isNetWorking;
+- (BOOL)isNetworking;
 
 #pragma mark - user implement methods
 //default base url is setted in GJNetWorkingConfig and you can set single base url.
@@ -134,6 +134,11 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
  *  请求的参数
  */
 - (NSDictionary *)parameters;
+
+/**
+ *  返回的类型
+ */
+- (GJResponseType)responseType;
 
 /**
  *  请求的重试次数，默认为0
@@ -174,4 +179,13 @@ typedef void (^GJDNSBlock)(BOOL usedDNs, NSString *domain, NSString *newBaseUrl)
 
 - (BOOL)shouldRetryWithResponseObject:(id)responseObject
                                 error:(NSError *)error;
+
+
+#pragma mark- deprecated
+/**
+ *  发出请求的方法，参数是回调block
+ */
+- (void)startWithSuccessBlock:(GJRequestFinishedBlock)success
+                  failedBlock:(GJRequestFinishedBlock)failed __attribute__((deprecated("Replaced by -startWithCompletedBlock:")));
+;
 @end

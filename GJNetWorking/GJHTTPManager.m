@@ -14,18 +14,20 @@
 @property (nonatomic, readwrite, strong) NSError *error;
 
 @property (nonatomic, readwrite, strong) id responseObject;
+@property (nonatomic, readwrite, strong) id responseJson;
 
 @end
-
 
 @interface GJHTTPManager ()
 
 @property (nonatomic, strong) AFHTTPSessionManager *manager;
+@property (nonatomic, strong) AFHTTPSessionManager *imageManager;
 
 @end
 
 @implementation GJHTTPManager
 
+#pragma mark- initalizer
 + (GJHTTPManager *)sharedManager{
     static GJHTTPManager *instance = nil;
     static dispatch_once_t onceToken;
@@ -35,23 +37,39 @@
     return instance;
 }
 
+- (AFHTTPSessionManager *)createManagerWithType:(GJResponseType)type {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.securityPolicy.allowInvalidCertificates = [GJNetworkingConfig allowInvalidCertificates];
+    manager.securityPolicy.validatesDomainName = [GJNetworkingConfig validatesDomainName];
+
+    if (type == GJResponseTypeImage) {
+        manager.responseSerializer = [AFImageResponseSerializer serializer];
+    }
+    else {
+        manager.responseSerializer.acceptableContentTypes = [GJNetworkingConfig acceptableContentTypes];
+    }
+    
+    return manager;
+}
+
+- (AFHTTPSessionManager *)imageManager {
+    if (!_imageManager) {
+        _imageManager = [self createManagerWithType:GJResponseTypeImage];
+    }
+    return _imageManager;
+}
+
 - (instancetype)init{
     self = [super init];
     if (!self) return nil;
-    
-    self.manager = [AFHTTPSessionManager manager];
-    self.manager.responseSerializer.acceptableContentTypes = [GJNetworkingConfig acceptableContentTypes];
-    self.manager.securityPolicy.allowInvalidCertificates = [GJNetworkingConfig allowInvalidCertificates];
-    self.manager.securityPolicy.validatesDomainName = [GJNetworkingConfig validatesDomainName];
-    self.manager.operationQueue.maxConcurrentOperationCount = [GJNetworkingConfig maxConcurrentOperationCount];
-    
+    self.manager = [self createManagerWithType:GJResponseTypeDefault];
     return self;
 }
 
 - (void)startRequest:(GJBaseRequest *)request {
     
-    //clear requestSerializer
-    self.manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //clear requestSerializer header host
+    [self.manager.requestSerializer setValue:nil forHTTPHeaderField:@"host"];
     
     __block NSString *baseUrl = nil;
     
@@ -63,12 +81,13 @@
         baseUrl = [GJNetworkingConfig defaultBaseUrl];
     }
     
+    //实现此方法，使用了dns，需要设置header host
     if ([request respondsToSelector:@selector(dNSWithBaseUrl:dNSBlock:)]) {
         [request dNSWithBaseUrl:baseUrl
                        dNSBlock:^(BOOL usedDNS, NSString *domain, NSString *newBaseUrl) {
             if (usedDNS) {
                 baseUrl = [newBaseUrl copy];
-                [_manager.requestSerializer setValue:domain forKey:@"host"];
+                [_manager.requestSerializer setValue:domain forHTTPHeaderField:@"host"];
             }
         }];
     }
@@ -105,112 +124,113 @@
                request:(GJBaseRequest *)request {
     
     NSURLSessionDataTask *task = nil;
+    AFHTTPSessionManager *manager = request.responseType == GJResponseTypeImage ? self.imageManager : self.manager;
     
     switch (method) {
         case GJRequestGET:
         {
-            task = [self.manager GET:url
-                          parameters:parameters
-                            progress:^(NSProgress * _Nonnull downloadProgress) {
-                                
-                            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                [self requestFinishedWithOperation:task
-                                                           request:request
-                                                    responseObject:responseObject
-                                                             error:nil];
-                            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                [self requestFinishedWithOperation:task
-                                                           request:request
-                                                    responseObject:nil
-                                                             error:error];
-                            }];
+            task = [manager GET:url
+                     parameters:parameters
+                       progress:^(NSProgress * _Nonnull downloadProgress) {
+                           
+                       } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                           [self requestFinishedWithOperation:task
+                                                      request:request
+                                               responseObject:responseObject
+                                                        error:nil];
+                       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                           [self requestFinishedWithOperation:task
+                                                      request:request
+                                               responseObject:nil
+                                                        error:error];
+                       }];
         }
             break;
         case GJRequestPOST:
         {
-            task = [self.manager POST:url
-                           parameters:parameters
-                             progress:^(NSProgress * _Nonnull downloadProgress) {
-                                 
-                             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                 [self requestFinishedWithOperation:task
-                                                            request:request
-                                                     responseObject:responseObject
-                                                              error:nil];
-                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                     [self requestFinishedWithOperation:task
-                                                                request:request
-                                                         responseObject:nil
-                                                                  error:error];
-                                 }];
+            task = [manager POST:url
+                      parameters:parameters
+                        progress:^(NSProgress * _Nonnull downloadProgress) {
+                            
+                        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                            [self requestFinishedWithOperation:task
+                                                       request:request
+                                                responseObject:responseObject
+                                                         error:nil];
+                        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                            [self requestFinishedWithOperation:task
+                                                       request:request
+                                                responseObject:nil
+                                                         error:error];
+                        }];
         }
             break;
         case GJRequestDELET:
         {
-            task = [self.manager DELETE:url
-                             parameters:parameters
-                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                    [self requestFinishedWithOperation:task
-                                                               request:request
-                                                        responseObject:responseObject
-                                                                 error:nil];
-                                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                    [self requestFinishedWithOperation:task
-                                                               request:request
-                                                        responseObject:nil
-                                                                 error:error];
-                                }];
+            task = [manager DELETE:url
+                        parameters:parameters
+                           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                               [self requestFinishedWithOperation:task
+                                                          request:request
+                                                   responseObject:responseObject
+                                                            error:nil];
+                           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                               [self requestFinishedWithOperation:task
+                                                          request:request
+                                                   responseObject:nil
+                                                            error:error];
+                           }];
         }
             break;
         case GJRequestHEAD:
         {
-            task = [self.manager HEAD:url
-                           parameters:parameters
-                              success:^(NSURLSessionDataTask * _Nonnull task) {
-                                  [self requestFinishedWithOperation:task
-                                                             request:request
-                                                      responseObject:nil
-                                                               error:nil];
-                              } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  [self requestFinishedWithOperation:task
-                                                             request:request
-                                                      responseObject:nil
-                                                               error:error];
-                              }];
+            task = [manager HEAD:url
+                      parameters:parameters
+                         success:^(NSURLSessionDataTask * _Nonnull task) {
+                             [self requestFinishedWithOperation:task
+                                                        request:request
+                                                 responseObject:nil
+                                                          error:nil];
+                         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                             [self requestFinishedWithOperation:task
+                                                        request:request
+                                                 responseObject:nil
+                                                          error:error];
+                         }];
         }
             break;
         case GJRequestPUT:
         {
-            task = [self.manager PUT:url
-                          parameters:parameters
-                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                 [self requestFinishedWithOperation:task
-                                                            request:request
-                                                     responseObject:responseObject
-                                                              error:nil];
-                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                 [self requestFinishedWithOperation:task
-                                                            request:request
-                                                     responseObject:nil
-                                                              error:error];
-                             }];
+            task = [manager PUT:url
+                     parameters:parameters
+                        success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                            [self requestFinishedWithOperation:task
+                                                       request:request
+                                                responseObject:responseObject
+                                                         error:nil];
+                        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                            [self requestFinishedWithOperation:task
+                                                       request:request
+                                                responseObject:nil
+                                                         error:error];
+                        }];
         }
             break;
         case GJRequestPATCH:
         {
-            task = [self.manager PATCH:url
-                            parameters:parameters
-                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                   [self requestFinishedWithOperation:task
-                                                              request:request
-                                                       responseObject:responseObject
-                                                                error:nil];
-                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                   [self requestFinishedWithOperation:task
-                                                              request:request
-                                                       responseObject:nil
-                                                                error:error];
-                               }];
+            task = [manager PATCH:url
+                       parameters:parameters
+                          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                              [self requestFinishedWithOperation:task
+                                                         request:request
+                                                  responseObject:responseObject
+                                                           error:nil];
+                          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                              [self requestFinishedWithOperation:task
+                                                         request:request
+                                                  responseObject:nil
+                                                           error:error];
+                          }];
         }
             break;
         default:
@@ -227,8 +247,7 @@
                                error:(NSError *)error {
     
     GJBaseRequest *strongRequest = request;
-    request.error = error;
-    request.responseObject = responseObject;
+
     BOOL success = request.error ? NO : YES;
     
     if ([strongRequest respondsToSelector:@selector(shouldRetryWithResponseObject:error:)]) {
@@ -247,17 +266,17 @@
         return;
     }
     
+    request.error = error;
+    request.responseObject = responseObject;
+    request.responseJson = responseObject;
     //没有重试则请求完成
     [strongRequest requestTerminate];
 }
 
 - (BOOL)cancelRequest:(GJBaseRequest *)request{
-    if (request.task) {
-//        AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)request.task;
-//        if (operation && !operation.isCancelled) {
-//            [operation cancel];
-//            return YES;
-//        }
+    if (request.task && request.task.state == NSURLSessionTaskStateRunning) {
+        [request.task cancel];
+        return YES;
     }
     return NO;
 }

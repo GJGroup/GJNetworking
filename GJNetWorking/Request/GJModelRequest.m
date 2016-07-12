@@ -19,7 +19,7 @@
 @implementation GJModelRequest
 
 - (id)responseObject {
-    if (self.responseModel) {
+    if (self.responseModel && [self responseType] == GJResponseTypeDefault) {
         return self.responseModel;
     }
     return [super responseObject];
@@ -28,6 +28,8 @@
 - (void)requestCompleted{
     
     [super requestCompleted];
+    //response is image, can't make model.
+    if ([self responseType] == GJResponseTypeImage) return;
     
     BOOL success = !self.error;
     
@@ -56,9 +58,7 @@
                                                         status:&responseStatus];
             self.status = responseStatus;
         }
-        
     }
-
 }
 
 - (NSArray<NSString *> *)modelKeysPath {

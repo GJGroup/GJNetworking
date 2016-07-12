@@ -11,23 +11,18 @@
 
 @interface GJBaseRequest ()
 
-@property (readwrite, nonatomic) GJRequestState state;
+@property (nonatomic, readwrite, assign) GJRequestState state;
 @property (nonatomic, copy, readwrite) GJCompletedBlock completedBlock;
 @property (nonatomic, copy, readwrite) GJRequestFinishedBlock successBlock;
 @property (nonatomic, copy, readwrite) GJRequestFinishedBlock failedBlock;
 @property (nonatomic, readwrite, strong) id status;
 @property (nonatomic, readwrite, strong) NSError *error;
 @property (nonatomic, readwrite, strong) id responseObject;
-
+@property (nonatomic, readwrite, strong) id responseJson;
 
 @end
 
 @implementation GJBaseRequest
-
-//default method is 'GET'
-- (GJRequestMethod)method {
-    return GJRequestGET;
-}
 
 - (void)start {
     self.state = GJRequestStateExcuting;
@@ -61,6 +56,7 @@
     return 0;
 }
 
+#pragma mark- public response method
 - (BOOL)isRequestSuccessed {
     return !self.error;
 }
@@ -70,12 +66,8 @@
     return NO;
 }
 
-- (BOOL)isNetWorking{
+- (BOOL)isNetworking{
     return self.state == GJRequestStateExcuting;
-}
-
-- (id)responseJson {
-    return self.responseObject;
 }
 
 - (void)requestTerminate {
@@ -106,7 +98,32 @@
     self.completedBlock = nil;
 }
 
-- (void)requestCompleted {
+- (void)requestCompleted {}
+
+#pragma mark- request config
+//default method is 'GET'
+- (GJRequestMethod)method {
+    return GJRequestGET;
+}
+
+- (NSString *)baseUrl {
+    return @"";
+}
+
+- (NSString *)path {
+    return @"";
+}
+
+- (NSDictionary *)parameters {
+    return nil;
+}
+
+- (NSTimeInterval)timeOutInterval {
+    return 30;
+}
+
+- (GJResponseType)responseType {
+    return GJResponseTypeDefault;
 }
 
 @end
