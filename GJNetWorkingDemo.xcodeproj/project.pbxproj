@@ -23,6 +23,7 @@
 		420DFA451C17268D007743E6 /* GCStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 420DFA401C17268D007743E6 /* GCStatus.m */; };
 		420DFA461C17268D007743E6 /* GCTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 420DFA421C17268D007743E6 /* GCTestModel.m */; };
 		420DFA491C17269C007743E6 /* MYRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 420DFA481C17269C007743E6 /* MYRequest.m */; };
+		423B86EB1D36811E00EF19C4 /* GJRequestGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 423B86EA1D36811E00EF19C4 /* GJRequestGroup.m */; };
 		C5C4F1B97FC09CAC1C92C1D3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B718924360312AC476C45A4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,8 @@
 		420DFA421C17268D007743E6 /* GCTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCTestModel.m; sourceTree = "<group>"; };
 		420DFA471C17269C007743E6 /* MYRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYRequest.h; sourceTree = "<group>"; };
 		420DFA481C17269C007743E6 /* MYRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYRequest.m; sourceTree = "<group>"; };
+		423B86E91D36811E00EF19C4 /* GJRequestGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJRequestGroup.h; sourceTree = "<group>"; };
+		423B86EA1D36811E00EF19C4 /* GJRequestGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJRequestGroup.m; sourceTree = "<group>"; };
 		5B718924360312AC476C45A4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E09056B53E975BA31F42123 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D16D00A329CCD66D2C7DC0EF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +131,8 @@
 			children = (
 				420DFA261C172644007743E6 /* GJHTTPManager.h */,
 				420DFA271C172644007743E6 /* GJHTTPManager.m */,
+				423B86E91D36811E00EF19C4 /* GJRequestGroup.h */,
+				423B86EA1D36811E00EF19C4 /* GJRequestGroup.m */,
 				420DFA281C172644007743E6 /* GJModelMakerDelegate.h */,
 				420DFA2A1C172644007743E6 /* GJNetworkingConfig.h */,
 				420DFA2B1C172644007743E6 /* GJNetworkingConfig.m */,
@@ -316,6 +321,7 @@
 				420DFA461C17268D007743E6 /* GCTestModel.m in Sources */,
 				420DFA131C17254B007743E6 /* AppDelegate.m in Sources */,
 				420DFA341C172644007743E6 /* GJHTTPManager.m in Sources */,
+				423B86EB1D36811E00EF19C4 /* GJRequestGroup.m in Sources */,
 				420DFA441C17268D007743E6 /* MJModelMaker.m in Sources */,
 				420DFA451C17268D007743E6 /* GCStatus.m in Sources */,
 				420DFA351C172644007743E6 /* GJNetworkingConfig.m in Sources */,
