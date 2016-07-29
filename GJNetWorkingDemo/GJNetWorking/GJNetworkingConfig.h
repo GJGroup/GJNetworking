@@ -11,7 +11,6 @@
 #import "GJModelMakerDelegate.h"
 
 @interface GJNetworkingConfig : NSObject 
-
 + (void)setDefaultBaseUrl:(NSString *)baseUrl
    acceptableContentTypes:(NSSet *)contentTypes
  allowInvalidCertificates:(BOOL)allowInvalidCer
@@ -34,6 +33,9 @@
 
 + (NSTimeInterval)timeOutInterval;
 
++ (void)setRemovesKeysWithNullValues:(BOOL)remove;
+
++ (BOOL)removesKeysWithNullValues;
 
 @end
 

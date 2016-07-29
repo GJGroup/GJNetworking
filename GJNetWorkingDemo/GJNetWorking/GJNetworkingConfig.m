@@ -16,7 +16,13 @@ static int maxConcurrentOperationCount = 4;
 static Class<GJModelMakerDelegate> modelMaker;
 static NSTimeInterval timeOutInterval = 60;
 
+static _removesKeysWithNullValues = NO;
+
 @implementation GJNetworkingConfig
+
+- (void)abc {
+    
+}
 
 + (void)setDefaultBaseUrl:(NSString *)base
    acceptableContentTypes:(NSSet *)contentTypes
@@ -63,6 +69,14 @@ static NSTimeInterval timeOutInterval = 60;
 
 + (NSTimeInterval)timeOutInterval{
     return timeOutInterval;
+}
+
++ (void)setRemovesKeysWithNullValues:(BOOL)remove {
+    _removesKeysWithNullValues = remove;
+}
+
++ (BOOL)removesKeysWithNullValues {
+    return _removesKeysWithNullValues;
 }
 
 @end

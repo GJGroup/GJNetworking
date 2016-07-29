@@ -49,6 +49,10 @@
         manager.responseSerializer.acceptableContentTypes = [GJNetworkingConfig acceptableContentTypes];
     }
     
+    if ([manager.responseSerializer isKindOfClass:[AFJSONResponseSerializer class]]) {
+        ((AFJSONResponseSerializer *)manager.responseSerializer).removesKeysWithNullValues = [GJNetworkingConfig removesKeysWithNullValues];
+    }
+    
     return manager;
 }
 
